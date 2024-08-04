@@ -10,15 +10,15 @@ const handlePrismaError = (error: Prisma.PrismaClientKnownRequestError) => {
   switch (error.stack) {
     case 'P2002':
       return new ApiError(400, {
-        message: `Duplicate field value: ${error?.meta?.target}`
+        message: `Duplicate field value: ${error?.meta?.["target"]}`
       });
     case 'P2014':
       return new ApiError(400, {
-        message: `Invalid ID: ${error?.meta?.target}`,
+        message: `Invalid ID: ${error?.meta?.["target"]}`,
       });
     case 'P2003':
       return new ApiError(400, {
-        message: `Invalid input data: ${error?.meta?.target}`
+        message: `Invalid input data: ${error?.meta?.["target"]}`
       });
     default:
       return new ApiError(400, {

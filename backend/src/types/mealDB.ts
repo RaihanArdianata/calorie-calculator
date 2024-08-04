@@ -1,4 +1,4 @@
-interface MealDBTypes {
+export interface MealDBTypes {
   idMeal: string;
   strMeal: string;
   strDrinkAlternate: string;
