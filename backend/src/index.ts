@@ -12,10 +12,7 @@ type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables; }>();
 
 // Middleware
-app.use(logger());
-app.use('/api', timeout(5000));
 app.use(
-  '/api/*',
   cors({
     origin: '*',
     allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
@@ -25,6 +22,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(logger());
+app.use('/api', timeout(5000));
 app.use(
   '/auth/*',
   jwt({
