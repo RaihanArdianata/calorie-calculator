@@ -37,7 +37,4 @@ app.route('/api', routes); // Ensure routes are correct and match
 
 app.onError(errorHandler);
 
-export default {
-  port: 8080,
-  fetch: app.fetch,
-};
+export default app;

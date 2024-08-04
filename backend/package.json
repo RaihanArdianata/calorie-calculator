@@ -2,7 +2,9 @@
   "name": "authentication-service",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "build": "tsc",
+    "start": "node dist/server.js"
   },
   "prisma": {
     "seed": "bun run prisma/seeders/seeds.ts"
