@@ -1,11 +1,42 @@
+// {
+//   "compilerOptions": {
+//     "strict": true,
+//     "jsx": "react-jsx",
+//     "jsxImportSource": "hono/jsx",
+//     "typeRoots": [
+//       "./node_modules/@types",
+//       "./types"
+//     ]
+//   }
+// }
 {
   "compilerOptions": {
-    "strict": true,
+    // Enable latest features
+    "lib": [
+      "ESNext"
+    ],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
     "jsx": "react-jsx",
+    "allowJs": false,
     "jsxImportSource": "hono/jsx",
     "typeRoots": [
       "./node_modules/@types",
       "./types"
-    ]
+    ],
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
+    // Best practices
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    // Some stricter flags
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true
   }
 }
