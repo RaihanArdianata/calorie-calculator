@@ -26,7 +26,7 @@ export const deleteSchema = z.object({
   id: z.string().uuid().min(1)
 });
 
-export const updateScheam = z.object({
+export const updateSchema = z.object({
   email: z.string().email(),
   first_name: z.string().min(1),
   last_name: z.string().min(1),
@@ -39,3 +39,4 @@ export const updateScheam = z.object({
 export type FetchAllSchemaType = z.infer<typeof fetchAllSchema>;
 export type CreateSchemaType = z.infer<typeof createSchema>;
 export type DeleteSchemaType = z.infer<typeof deleteSchema>;
+export type UpdateSchemaType = z.infer<typeof updateSchema>
