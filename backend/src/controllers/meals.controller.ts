@@ -1,4 +1,3 @@
-import httpStatus = require("http-status");
 import { createManyIngredient, findIngredientByNames } from "../services/ingredients.service";
 import ApiError from "../utils/ApiError";
 import { catchAsync } from "../utils/catchAsync";
@@ -6,6 +5,7 @@ import * as _ from "lodash";
 import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 import { createManyTrIngredients } from "../services/trIngredients.service";
 import { createManyMeals, findMeal, findUser } from "../services/meals.service";
+import httpStatus from "http-status";
 
 export const getMealIngeredientsByMealId = catchAsync(async (c) => {
   const mealId = c.req.param('mealId');
@@ -78,4 +78,4 @@ export const findMealBookmark = catchAsync(async ctx => {
   const externalId = ctx.req.param("externalId");
   const data = await findUser(externalId);
   return ctx.json({ data });
-})
+});
