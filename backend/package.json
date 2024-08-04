@@ -1,5 +1,6 @@
 {
   "name": "authentication-service",
+  "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "postinstall": "prisma generate",
