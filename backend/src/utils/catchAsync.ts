@@ -1,7 +1,6 @@
 import { Context, Next } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { errorConverter } from "../middleware/error.middleware";
-import { StatusCode } from "hono/utils/http-status";
 import ApiError from "./ApiError";
 
 export const catchAsync = (fn: (c: Context, next: Next) => void) => async (c: Context, next: Next) => {
