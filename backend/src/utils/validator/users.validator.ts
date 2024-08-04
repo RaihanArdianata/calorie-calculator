@@ -17,7 +17,7 @@ export const createSchema = z.object({
 });
 
 export const deleteSchema = z.object({
-  ids: z.array(z.string().uuid()).min(1)
+  id: z.string().uuid().min(1)
 });
 
 export type FetchAllSchemaType = z.infer<typeof fetchAllSchema>;

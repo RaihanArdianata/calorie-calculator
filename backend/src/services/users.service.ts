@@ -36,8 +36,8 @@ export const create = async (data: CreateSchemaType) =>
   });
 
 
-export const removes = async ({ ids }: DeleteSchemaType) => 
-  prisma.users.deleteMany({ where: { id: { in: ids } } });
+export const removes = async ({ id }: DeleteSchemaType) => 
+  prisma.users.deleteMany({ where: { id: id } });
 
 export const favMeals = async (id: string) =>
   prisma.favorite_meals.findMany({ where: { user_id: id }});
