@@ -7,12 +7,12 @@ import * as HttpStatus from "http-status";
 
 export const authentication = jwt({ secret: process.env.JWT_SECRET || 'default', });
 
-export const authenticationStoreOwner = catchAsync(async (c, next) => {
+export const authenticationAdmin = catchAsync(async (c, next) => {
   const { id } = c.get("jwtPayload");
   return await next();
 });
 
-export const authenticationAppAdmin = catchAsync(async (c, next) => {
+export const authenticationUser = catchAsync(async (c, next) => {
   const { id } = c.get("jwtPayload");
   const findUser = await getUserById({ id });
 
