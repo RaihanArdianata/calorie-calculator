@@ -1,4 +1,4 @@
-import { decode, sign, verify, jwt } from 'hono/jwt';
+import { decode, sign, verify } from 'hono/jwt';
 
 interface tokenParams {
   email: string;

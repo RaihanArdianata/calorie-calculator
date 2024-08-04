@@ -14,7 +14,7 @@ export const validate = (schema: ZodSchema) => {
         return c.json({ error: 'Invalid JSON format' }, 400);
       } else if (error instanceof ZodError) {
         return c.json({
-          error: 'Validation failed', details: error.errors.map(({ message, path, ...a }) => {
+          error: 'Validation failed', details: error.errors.map(({ message, path }) => {
             return ({ message, path });
           })
         }, 400);
@@ -38,7 +38,7 @@ export const validateQuery = (schema: ZodSchema) => {
         return c.json({ error: 'Invalid Query format' }, 400);
       } else if (error instanceof ZodError) {
         return c.json({
-          error: 'Validation failed', details: error.errors.map(({ message, path, ...a }) => {
+          error: 'Validation failed', details: error.errors.map(({ message, path }) => {
             return ({ message, path });
           })
         }, 400);
