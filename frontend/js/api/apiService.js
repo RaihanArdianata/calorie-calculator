@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://calorie-calculator-backend-xi.vercel.app/';
+const API_BASE_URL = 'https://calorie-calculator-backend-xi.vercel.app';
 
 const apiService = {
     fetchData: (endpoint, method = 'GET', data = {}) => {
@@ -12,19 +12,19 @@ const apiService = {
     },
 
     get: (endpoint) => {
-        return this.fetchData(endpoint, 'GET');
+        return apiService.fetchData(endpoint, 'GET');
     },
 
     post: (endpoint, data) => {
-        return this.fetchData(endpoint, 'POST', data);
+        return apiService.fetchData(endpoint, 'POST', data);
     },
 
     patch: (endpoint, data) => {
-        return this.fetchData(endpoint, 'PATCH', data);
+        return apiService.fetchData(endpoint, 'PATCH', data);
     },
 
     delete: (endpoint) => {
-        return this.fetchData(endpoint, 'DELETE');
+        return apiService.fetchData(endpoint, 'DELETE');
     }
 };
 
