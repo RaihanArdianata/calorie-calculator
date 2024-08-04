@@ -13,14 +13,14 @@ export const generateToken = async ({ email, national_id, id }: tokenParams) => 
     national_id: national_id,
     exp: Math.floor(Date.now() / 1000) + 60 * 30, // Token expires in 30 minutes
   };
-  const secret = process.env.JWT_SECRET || 'default';
+  const secret = process.env['JWT_SECRET'] || 'default';
   const token = await sign(payload, secret);
 
   return token;
 };
 
 export const verifyToken = async (token: string) => {
-  const secret = process.env.JWT_SECRET || 'default';
+  const secret = process.env['JWT_SECRET'] || 'default';
   const result = await verify(token, secret);
 
   return result;
