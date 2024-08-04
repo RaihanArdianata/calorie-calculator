@@ -12,17 +12,14 @@ type Variables = JwtVariables;
 const app = new Hono<{ Variables: Variables; }>();
 
 // Middleware
+app.use(logger());
 app.use(
+  '/api/*',
   cors({
     origin: '*',
-    allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
-    allowMethods: ['POST', 'GET', 'OPTIONS'],
-    exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
-    maxAge: 600,
-    credentials: true,
+    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
   })
 );
-app.use(logger());
 app.use('/api', timeout(5000));
 app.use(
   '/auth/*',
