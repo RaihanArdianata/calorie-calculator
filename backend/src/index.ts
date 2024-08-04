@@ -17,7 +17,7 @@ app.use('/api', timeout(5000));
 app.use(
   '/api/*',
   cors({
-    origin: 'localhost',
+    origin: '*',
     allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
     allowMethods: ['POST', 'GET', 'OPTIONS'],
     exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
