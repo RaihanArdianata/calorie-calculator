@@ -41,7 +41,6 @@ export const removes = async ({ id }: DeleteSchemaType) =>
 
 export const favMeals = async (id: string) =>
   prisma.favorite_meals.findMany({ where: { user_id: id }});
-
 export const isAdmin = async(id: string) => {
   const data = await prisma.roles.findFirst({
     where: {
