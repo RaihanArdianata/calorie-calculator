@@ -13,9 +13,9 @@ const app = new Hono<{ Variables: Variables; }>();
 
 // Middleware
 app.use(
-  '/api',
+  '/api/*',
   cors({
-    origin: ['*', 'http://127.0.0.1:5500'],
+    origin: ['*'],
     allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
     allowHeaders: ['Content-Type', 'Authorization'],
     credentials: false,
