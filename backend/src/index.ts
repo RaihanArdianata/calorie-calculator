@@ -18,6 +18,8 @@ app.use(
   cors({
     origin: '*',
     allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
   })
 );
 app.use('/api', timeout(5000));
