@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  id                  String               @id @default(uuid())
+  username            String               @unique
+  first_name          String?
+  last_name           String?
+  phone               String?
+  email               String               @unique
+  password            String
+  role_id             String
+  birth_date          DateTime?
+  created_at          DateTime             @default(now())
+  updated_at          DateTime             @default(now()) @updatedAt
+  email_confirmations email_confirmation[]
+  phone_confirmations phone_confirmation[]
+  roles               roles                @relation(fields: [role_id], references: [id])
+  token               token[]
+  favorite_meals      favorite_meals[]
+}
+
+model roles {
+  id          String   @id @default(uuid())
+  name        RoleName @unique
+  description String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+  app_users   users[]
+}
+
+model email_confirmation {
+  id                String   @id @default(uuid())
+  user_id           String
+  confirmation_code String   @unique
+  is_confirmed      Boolean  @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @default(now()) @updatedAt
+
+  app_user users @relation(fields: [user_id], references: [id])
+}
+
+model phone_confirmation {
+  id          String   @id @default(uuid())
+  user_id     String
+  otp_code    String
+  is_verified Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now()) @updatedAt
+
+  app_user users @relation(fields: [user_id], references: [id])
+}
+
+model token {
+  id          String   @id @default(uuid())
+  token       String
+  user_id     String
+  type        String
+  expires     DateTime
+  blacklisted Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model favorite_meals {
+  id          String @id @default(uuid())
+  meal_id     String
+  user_id     String
+  external_id String
+
+  user users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  meal meals @relation(fields: [meal_id], references: [id], onDelete: Cascade)
+}
+
+model ingredients {
+  id                    String   @id @default(uuid())
+  sugar_g               Float
+  fiber_g               Float
+  serving_size_g        Float
+  sodium_mg             Int
+  name                  String
+  potassium_mg          Int
+  fat_saturated_g       Float
+  fat_total_g           Float
+  calories              Float
+  cholesterol_mg        Int
+  protein_g             Float
+  carbohydrates_total_g Float
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  tr_ingredients tr_ingredients[]
+}
+
+model meals {
+  id          String   @id @default(uuid())
+  external_id String   @unique
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  tr_ingredients tr_ingredients[]
+  favorite_meals favorite_meals[]
+}
+
+model tr_ingredients {
+  id         String   @id @default(uuid())
+  meal_id    String
+  calorie_id String
+  measure    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  meal       meals       @relation(fields: [meal_id], references: [id], onDelete: Cascade)
+  ingredient ingredients @relation(fields: [calorie_id], references: [id], onDelete: Cascade)
+}
+
+enum RoleName {
+  ADMINISTRATOR
+  USER
+}
