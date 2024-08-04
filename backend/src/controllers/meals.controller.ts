@@ -5,7 +5,7 @@ import * as _ from "lodash";
 import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 import { createManyTrIngredients } from "../services/trIngredients.service";
 import { createManyMeals, findMeal, findUser } from "../services/meals.service";
-import httpStatus from "http-status";
+import * as httpStatus from "http-status";
 
 export const getMealIngeredientsByMealId = catchAsync(async (c) => {
   const mealId = c.req.param('mealId');
