@@ -1,4 +1,5 @@
 import * as _ from "lodash";
+import { MealDBTypes } from "../types/mealDB";
 
 
 export const ingredientsExtractor = (meals: MealDBTypes) => {

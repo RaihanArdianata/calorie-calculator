@@ -24,12 +24,12 @@ export const findMealByExternalId = catchAsync(async (c) => {
 
 
   if (_.isEmpty(meal)) {
-    const response = await fetch(`${process.env.MEAL_DB_API}/lookup.php?i=${externalId}`);
+    const response = await fetch(`${process.env["MEAL_DB_API"]}/lookup.php?i=${externalId}`);
 
     if (!response.ok) {
       throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from MEAL_DB_API" });
     }
-    const { meals } = await response.json();
+    const { meals }: any = await response.json();
 
     const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal })) });
 
@@ -46,17 +46,17 @@ export const findMealByExternalId = catchAsync(async (c) => {
 
       const joinedIngredientsName = ingeredientsData.join(",").replace(/,|-/g, " ");
 
-      const responseCalorie = await fetch(`${process.env.CALORIE_NINJA_API}/nutrition?query=${joinedIngredientsName}`, {
+      const responseCalorie = await fetch(`${process.env["CALORIE_NINJA_API"]}/nutrition?query=${joinedIngredientsName}`, {
         method: 'GET',
         headers: {
-          'X-Api-Key': process.env.CALORIE_NINJA_API_KEY || ""
+          'X-Api-Key': process.env["CALORIE_NINJA_API_KEY"] || ""
         }
       });
 
       if (!responseCalorie.ok) {
         throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from CALORIE NINJA" });
       }
-      const { items } = await responseCalorie.json();
+      const { items }: any = await responseCalorie.json();
 
       const result = await createManyIngredient({ data: items });
       const mealId = _.find(mealsData, (item) => item.external_id === externalId)?.id;
