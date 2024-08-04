@@ -25,3 +25,16 @@ export const findMeal = ({ external_id, id }: mealTypes) => {
     }
   });
 };
+
+export const findUser = (id: string) => prisma.users.findMany({
+    where: {
+      favorite_meals: {
+        some: {
+          OR: [
+            { id },
+            { external_id: id }
+          ]
+        }
+      }
+    }
+  })

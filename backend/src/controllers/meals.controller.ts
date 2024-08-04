@@ -5,7 +5,7 @@ import { catchAsync } from "../utils/catchAsync";
 import * as _ from "lodash";
 import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 import { createManyTrIngredients } from "../services/trIngredients.service";
-import { createManyMeals, findMeal } from "../services/meals.service";
+import { createManyMeals, findMeal, findUser } from "../services/meals.service";
 
 export const getMealIngeredientsByMealId = catchAsync(async (c) => {
   const mealId = c.req.param('mealId');
@@ -73,3 +73,9 @@ export const findMealByExternalId = catchAsync(async (c) => {
   }
   return c.json({ data: meal });
 });
+
+export const findMealBookmark = catchAsync(async ctx => {
+  const externalId = ctx.req.param("externalId");
+  const data = await findUser(externalId);
+  return ctx.json({ data });
+})
