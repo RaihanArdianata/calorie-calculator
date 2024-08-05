@@ -25,7 +25,7 @@ model users {
   roles               roles                @relation(fields: [role_id], references: [id])
   token               token[]
   favorite_meals      favorite_meals[]
-  food_agenda         food_agenda[]
+  meals_agenda        meals_agenda[]
 }
 
 model roles {
@@ -110,7 +110,7 @@ model meals {
 
   tr_ingredients tr_ingredients[]
   favorite_meals favorite_meals[]
-  food_agenda    food_agenda[]
+  meals_agenda   meals_agenda[]
 }
 
 model tr_ingredients {
@@ -125,7 +125,7 @@ model tr_ingredients {
   ingredient ingredients @relation(fields: [calorie_id], references: [id], onDelete: Cascade)
 }
 
-model food_agenda {
+model meals_agenda {
   id          String     @id @default(uuid())
   meal_id     String
   agenda_name AgendaName
