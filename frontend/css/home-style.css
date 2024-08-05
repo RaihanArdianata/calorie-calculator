@@ -1,0 +1,25 @@
+.max-w-screen-sm {
+  max-width: 480px !important;
+}
+
+.cs-progress-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+  height: 100px;
+}
+
+.cs-progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: white; /* Adjust color based on your progress bar background */
+}
+
+.-cs-rotate-90 {
+  transform: rotate(-90deg);
+}
