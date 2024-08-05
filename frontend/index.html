@@ -1,23 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calorie Calculator</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home-style.css" />
+    <!-- bulma -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
     <script type="module" src="js/main.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <header>
-        <nav></nav>
+      <nav></nav>
     </header>
-    <main>
-        <h1>Hello World</h1>
+    <main class="mx-auto max-w-screen-sm p-5 tw-bg-gray-500">
+      <div
+        class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center mb-5">
+        <p class="is-size-5">Calorie Tracker</p>
+        <figure class="image is-48x48">
+          <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" />
+        </figure>
+      </div>
+      <div class="mb-5">
+        <p class="is-size-3">Hi, what are you going to eat today?</p>
+        <div class="is-flex is-flex-direction-row my-5">
+          <div class="cs-progress-container">
+            <progress
+              class="progress is-primary -cs-rotate-90"
+              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
+              value="40"
+              max="100">
+              30%
+            </progress>
+            <p class="cs-progress-text">Calories</p>
+          </div>
+          <div class="cs-progress-container">
+            <progress
+              class="progress is-primary -cs-rotate-90"
+              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
+              value="10"
+              max="100">
+              30%
+            </progress>
+            <p class="cs-progress-text">Fat</p>
+          </div>
+          <div class="cs-progress-container">
+            <progress
+              class="progress is-primary -cs-rotate-90"
+              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
+              value="70"
+              max="100">
+              30%
+            </progress>
+            <p class="cs-progress-text">Protein</p>
+          </div>
+          <div class="cs-progress-container">
+            <progress
+              class="progress is-primary -cs-rotate-90"
+              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
+              value="90"
+              max="100">
+              30%
+            </progress>
+            <p class="cs-progress-text">Sugar</p>
+          </div>
+        </div>
+      </div>
+      <div class="my-5">
+        <p class="is-size-6 my-5">Current Agenda</p>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">Breakfast</p>
+            <button class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+              <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+              <br />
+              <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item">Save</a>
+            <a href="#" class="card-footer-item">Edit</a>
+            <a href="#" class="card-footer-item">Delete</a>
+          </footer>
+        </div>
+      </div>
+      <div class="my-5">
+        <div
+          class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
+          <p class="is-size-6 my-5">Foods</p>
+          <div class="level-item">
+            <div class="field has-addons">
+              <p class="control">
+                <input class="input" type="text" placeholder="Find a post" />
+              </p>
+              <p class="control">
+                <button class="button">Search</button>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="is-flex is-flex-direction-row mb-5" style="gap: 8px">
+          <button class="button">Tag 1</button>
+          <button class="button">Tag 2</button>
+          <button class="button">Tag 3</button>
+        </div>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">Breakfast</p>
+            <button class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+              <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+              <br />
+              <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#" class="card-footer-item">Save</a>
+            <a href="#" class="card-footer-item">Edit</a>
+            <a href="#" class="card-footer-item">Delete</a>
+          </footer>
+        </div>
+      </div>
     </main>
     <footer></footer>
-</body>
-
+  </body>
+  <script></script>
 </html>
