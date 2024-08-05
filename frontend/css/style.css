@@ -4,3 +4,39 @@
 body {
   font-family: 'Lato', sans-serif;
 }
+
+@keyframes slideUp {
+  0% {
+    top: 0em;
+  }
+  100% {
+    top: -1em;
+  }
+}
+
+.oh-my-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0.5em;
+  position: relative;
+  a.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+  }
+
+  a[aria-current="page"] {
+    animation: slideUp 1s;
+    width: 5em;
+    height: 5em;
+    position: absolute;
+    background-color: #14161a;
+    color: hsla(var(--bulma-primary-h),var(--bulma-primary-s),var(--bulma-primary-l), 1);
+    border: hsla(var(--bulma-primary-h),var(--bulma-primary-s),var(--bulma-primary-l), 1), solid;
+    border-radius: 5em;
+    justify-content: center;
+    top: -1em;
+  }
+}
