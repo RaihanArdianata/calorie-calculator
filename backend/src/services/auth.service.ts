@@ -19,18 +19,20 @@ export const getUsers = () => {
   });
 };
 
-export const getUser = async ({ email, phone }: { email: string, phone: string; }) => {
+export const getUser = async ({ email, phone, username }: { email: string, phone: string; username: string; }) => {
   return prisma.users.findFirst({
     where: {
       OR: [
-        { email: { equals: email.toLowerCase() } },
-        { phone: await transformPhoneNumber(phone) }
+        { email: email },
+        { phone: await transformPhoneNumber(phone) },
+        { username }
       ]
     }
   });
 };
 
 export const createUser = async (data: UserTypes) => {
+  const role = await prisma.roles.findUnique({ where: { name: "USER" }});
   return prisma.users.create({
     data: {
       email: data.email!,
@@ -38,8 +40,8 @@ export const createUser = async (data: UserTypes) => {
       last_name: data.last_name,
       password: await bcryptHash(data.password!),
       phone: await transformPhoneNumber(data.phone!),
-      username: data.username!,
-      role_id: data.role_id!
+      username: `${data.first_name?.toLowerCase()}_${data.last_name?.toLowerCase()}`,
+      role_id: role!.id
     }
   });
 };

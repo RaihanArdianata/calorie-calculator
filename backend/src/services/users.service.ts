@@ -1,4 +1,3 @@
-import { isNaN } from "lodash";
 import { prisma } from "../bin/database";
 import { transformPhoneNumber } from "../utils/formater";
 import { bcryptHash } from "../utils/hashing";
@@ -28,10 +27,12 @@ export const create = async (data: CreateSchemaType) =>
       role_id: data.role_id,
     },
     update: {
-      ...data
+      ...data,
+      password: await bcryptHash(data.password),
+      phone: await transformPhoneNumber(data.phone),
     },
     where: {
-      id: data.id
+      id: data.id ?? "no_id"
     }
   });
 
@@ -41,6 +42,7 @@ export const removes = async ({ id }: DeleteSchemaType) =>
 
 export const favMeals = async (id: string) =>
   prisma.favorite_meals.findMany({ where: { user_id: id }});
+
 export const isAdmin = async(id: string) => {
   const data = await prisma.roles.findFirst({
     where: {
@@ -55,4 +57,17 @@ export const isAdmin = async(id: string) => {
     }
   });
   return data;
+}
+
+export const isEmailOrUsernameTaken = async (username: string, email: string) => {
+  const count = await prisma.users.count({
+    where: {
+      OR: [
+        { username },
+        { email }
+      ]
+    }
+  });
+
+  return count > 0;
 }
