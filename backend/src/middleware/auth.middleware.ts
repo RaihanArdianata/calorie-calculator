@@ -15,8 +15,9 @@ export const authenticationAdmin = catchAsync(async (c, next) => {
   if (isEmpty(findUser)) {
     throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "unauthorize" });
   } else {
-    if (isEmpty(await isAdmin(id))) throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "unauthorize" });
-    return await next();
+    const user = await isAdmin(id);
+    if (!user) throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "unauthorize" });
+    return next();
   }
 });
 
