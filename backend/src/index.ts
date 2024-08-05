@@ -6,6 +6,7 @@ import { jwt } from 'hono/jwt';
 import type { JwtVariables } from 'hono/jwt';
 import routes from './routes';
 import { errorHandler } from './middleware/error.middleware';
+import { toQueryString } from './utils/queryString';
 
 type Variables = JwtVariables;
 
@@ -25,13 +26,14 @@ app.use(logger());
 
 app.use('/api', timeout(5000));
 
-app.get('/proxy/:request', async (ctx) => {
+app.get('/proxy/mealdb/:request', async (ctx) => {
   const request = ctx.req.param('request');
-  const removedURL = request.replace("mealdb", "");
+  const query = ctx.req.query();
+  const queryString = toQueryString(query);
 
-  const url = `https://www.themealdb.com/api/json/v1/1/${removedURL}`;
+  const url = `https://www.themealdb.com/api/json/v1/1/${request}?${queryString}`;
   const response = await fetch(url);
-  console.log(response);
+  console.log(url, queryString);
 
   if (!response.ok) {
     return ctx.json({ error: 'Failed to fetch data from external API' }, 500);
