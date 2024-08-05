@@ -1,5 +1,5 @@
 import { AgendaName } from "@prisma/client";
-import { createMealsAgenda, deleteMealsAgenda, getMealAgendaByUserId, updateMealsAgenda } from "../services/meals.agenda.service";
+import { createMealsAgenda, deleteMealsAgenda, findMealAgendaByUserId, getMealAgendaByUserId, updateMealsAgenda } from "../services/meals.agenda.service";
 import { catchAsync } from "../utils/catchAsync";
 import { CreateSchemaType, UpdateSchemaType } from "../utils/validator/agenda.validator";
 
@@ -13,7 +13,7 @@ export const find = catchAsync(async ctx => {
   const { id } = ctx.get("jwtPayload");
   const agendaName = ctx.req.query('agendaName');
 
-  const data = await getMealAgendaByUserId({ data: { user_id: id, agenda_name: agendaName as AgendaName || "SNACK" } });
+  const data = await findMealAgendaByUserId({ data: { user_id: id, agenda_name: agendaName as AgendaName || "SNACK" } });
   return ctx.json({ data });
 });
 
