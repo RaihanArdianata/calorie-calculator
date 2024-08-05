@@ -22,6 +22,15 @@ app.use(
     credentials: false,
   })
 );
+app.use(
+  '/proxy/*',
+  cors({
+    origin: ['*'],
+    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
+  })
+);
 app.use(logger());
 
 app.use('/api', timeout(5000));
