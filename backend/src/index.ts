@@ -24,6 +24,22 @@ app.use(
 app.use(logger());
 
 app.use('/api', timeout(5000));
+
+app.get('/proxy/:request', async (ctx) => {
+  const request = ctx.req.param('request');
+  const removedURL = request.replace("mealdb", "");
+
+  const url = `https://www.themealdb.com/api/json/v1/1/${removedURL}`;
+  const response = await fetch(url);
+  console.log(response);
+
+  if (!response.ok) {
+    return ctx.json({ error: 'Failed to fetch data from external API' }, 500);
+  }
+  const data = await response.json();
+  return ctx.json(data);
+});
+
 app.use(
   '/auth/*',
   jwt({
