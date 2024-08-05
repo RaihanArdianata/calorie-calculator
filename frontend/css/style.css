@@ -4,3 +4,27 @@
 body {
   font-family: 'Lato', sans-serif;
 }
+
+/* Scrollbar Track */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  height: 8px; /* Height of the horizontal scrollbar */
+}
+
+/* Scrollbar Handle */
+::-webkit-scrollbar-thumb {
+  border: solid 1px #00bb9f;
+  background: #01e9c6; /* Color of the scrollbar handle */
+  border-radius: 6px; /* Roundness of the handle */
+}
+
+/* Scrollbar Handle on Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #01e9c6; /* Color of the handle on hover */
+}
+
+/* Scrollbar Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the scrollbar track */
+  border-radius: 6px; /* Roundness of the track */
+}

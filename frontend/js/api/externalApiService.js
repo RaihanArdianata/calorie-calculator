@@ -1,4 +1,4 @@
-const MEAL_API_URL = 'http://localhost:3000/proxy/mealdb';
+const MEAL_API_URL = 'https://calorie-calculator-chi.vercel.app/proxy/mealdb';
 
 const apiService = {
   fetchData: (endpoint, method = 'GET', data = {}) => {
