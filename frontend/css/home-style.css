@@ -17,7 +17,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: bold;
-  color: white; /* Adjust color based on your progress bar background */
+  color: white;
 }
 
 .-cs-rotate-90 {
