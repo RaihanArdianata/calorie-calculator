@@ -1,4 +1,4 @@
-const MEAL_API_URL = 'http://localhost:3000/proxy?';
+const MEAL_API_URL = 'http://localhost:3000/proxy/mealdb';
 
 const apiService = {
   fetchData: (endpoint, method = 'GET', data = {}) => {
