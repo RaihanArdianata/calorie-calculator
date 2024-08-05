@@ -1,6 +1,8 @@
 import apiService from './api/apiService.js';
+import { modalOnClick} from './search-modal.js';
 
 $(document).ready(() => {
+    $("a#search-meals").on("click", modalOnClick);
     $('#login-form').on('submit', (event) => {
         event.preventDefault();
 

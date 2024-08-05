@@ -5,26 +5,58 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
-/* Scrollbar Track */
 ::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the horizontal scrollbar */
+  width: 8px;
+  height: 8px;
 }
 
-/* Scrollbar Handle */
 ::-webkit-scrollbar-thumb {
   border: solid 1px #00bb9f;
-  background: #01e9c6; /* Color of the scrollbar handle */
-  border-radius: 6px; /* Roundness of the handle */
+  background: #01e9c6;
+  border-radius: 6px;
 }
 
-/* Scrollbar Handle on Hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #01e9c6; /* Color of the handle on hover */
+  background: #01e9c6;
 }
 
-/* Scrollbar Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* Color of the scrollbar track */
-  border-radius: 6px; /* Roundness of the track */
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+@keyframes slideUp {
+  0% {
+    top: 0em;
+  }
+  100% {
+    top: -1em;
+  }
+}
+
+.oh-my-navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0.5em;
+  position: relative;
+  a.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+  }
+
+  a[aria-current='page'] {
+    animation: slideUp 1s;
+    width: 5em;
+    height: 5em;
+    position: absolute;
+    background-color: #14161a;
+    color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1);
+    border: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1), solid;
+    border-radius: 5em;
+    justify-content: center;
+    top: -1em;
+  }
 }
