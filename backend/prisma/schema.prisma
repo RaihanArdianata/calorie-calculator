@@ -25,6 +25,7 @@ model users {
   roles               roles                @relation(fields: [role_id], references: [id])
   token               token[]
   favorite_meals      favorite_meals[]
+  meals_agenda        meals_agenda[]
 }
 
 model roles {
@@ -109,6 +110,7 @@ model meals {
 
   tr_ingredients tr_ingredients[]
   favorite_meals favorite_meals[]
+  meals_agenda   meals_agenda[]
 }
 
 model tr_ingredients {
@@ -123,7 +125,26 @@ model tr_ingredients {
   ingredient ingredients @relation(fields: [calorie_id], references: [id], onDelete: Cascade)
 }
 
+model meals_agenda {
+  id          String     @id @default(uuid())
+  meal_id     String
+  agenda_name AgendaName
+  time        DateTime?  @default(now())
+  user_id     String
+  user        users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  meal        meals      @relation(fields: [meal_id], references: [id], onDelete: Cascade)
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+}
+
 enum RoleName {
   ADMINISTRATOR
   USER
+}
+
+enum AgendaName {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
 }
