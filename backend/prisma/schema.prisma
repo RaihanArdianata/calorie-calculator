@@ -105,6 +105,8 @@ model ingredients {
 model meals {
   id          String   @id @default(uuid())
   external_id String   @unique
+  name        String?
+  area        String?
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
