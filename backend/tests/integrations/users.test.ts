@@ -12,20 +12,20 @@ describe("Users Route /users", () => {
   let token: string;
   let userToken: string;
   beforeAll(async () => {
-    const role = await prisma.roles.findUnique({ where: { name: "USER" }});
+    const role = await prisma.roles.findUnique({ where: { name: "USER" } });
     usersData = await prisma.users.createManyAndReturn({
       skipDuplicates: true,
-      data: users.map(x => ({...x, role_id: role!.id })),
+      data: users.map(x => ({ ...x, role_id: role!.id })),
       select: { id: true, email: true }
     });
-    const admin = await prisma.users.findFirst({ where: { roles: { name: "ADMINISTRATOR" }}, select: { id: true, email: true }});
-    token = await generateToken({ email: admin!.email , id: admin!.id });
-    userToken = await generateToken({ email: usersData[0].email, id: usersData[0].id });
+    const admin = await prisma.users.findFirst({ where: { roles: { name: "ADMINISTRATOR" } }, select: { id: true, email: true } });
+    token = (await generateToken({ email: admin!.email, id: admin!.id })).token;
+    userToken = (await generateToken({ email: usersData[0].email, id: usersData[0].id })).token;
 
   });
   afterAll(async () => {
-    await prisma.users.deleteMany({ where: { id: {in: usersData.map(x => x.id) }}});
-  })
+    await prisma.users.deleteMany({ where: { id: { in: usersData.map(x => x.id) } } });
+  });
   describe("GET", () => {
     test("should response 200 (OK) and succesfully retrieve users list", async () => {
       const response = await app.request("/api/users", {
@@ -35,7 +35,7 @@ describe("Users Route /users", () => {
         },
       });
       expect(response.status).toEqual(OK);
-    })
+    });
   });
   describe("DELETE", () => {
     test("should response 200 (OK) and succesfully delete user", async () => {
@@ -47,7 +47,7 @@ describe("Users Route /users", () => {
         body: objectToForm({ id: usersData[1].id })
       });
       expect(response.status).toEqual(OK);
-      const user = await prisma.users.findFirst({ where: { id: usersData[1].id }});
+      const user = await prisma.users.findFirst({ where: { id: usersData[1].id } });
       expect(user).toBeNil();
     });
 
@@ -63,19 +63,19 @@ describe("Users Route /users", () => {
   });
   describe("POST", () => {
     test("should response 200 (OK) and succesfully create user", async () => {
-    const role = await prisma.roles.findUnique({ where: { name: "USER" }});
+      const role = await prisma.roles.findUnique({ where: { name: "USER" } });
       const user = createFakeUserData();
       const response = await app.request("/api/users", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`
         },
-        body: objectToForm({...user, role_id: role!.id }),
+        body: objectToForm({ ...user, role_id: role!.id }),
       });
       expect(response.status).toEqual(OK);
       const body = await response.json();
       usersData.push({ email: body.data.email, id: body.data.id });
-      const data = await prisma.users.findFirst({ where: { id: body.data.id }});
+      const data = await prisma.users.findFirst({ where: { id: body.data.id } });
       expect(data).toBeDefined();
     });
 

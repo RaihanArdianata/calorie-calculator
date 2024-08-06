@@ -16,7 +16,7 @@ export const generateToken = async ({ email, national_id, id }: tokenParams) => 
   const secret = process.env['JWT_SECRET'] || 'default';
   const token = await sign(payload, secret);
 
-  return token;
+  return { token, exp: payload.exp };
 };
 
 export const verifyToken = async (token: string) => {
