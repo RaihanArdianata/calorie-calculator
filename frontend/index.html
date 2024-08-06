@@ -6,33 +6,31 @@
     <title>Calorie Calculator</title>
 
     <!-- flag css -->
+    <link rel="stylesheet" href="css/home-style.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
-
-    <link rel="stylesheet" href="css/home-style.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./js/chart.js"></script>
+    <!-- local style -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- local module -->
     <script type="module" src="js/home.main.js"></script>
-    <!-- route -->
-    <script src="./js/navigation.js"></script>
+    <script src="js/navigation.js"></script>
   </head>
 
   <body>
     <header>
-      <nav></nav>
-    </header>
-    <main class="mx-auto max-w-screen-sm p-5 tw-bg-gray-500" style="min-height: calc(100vh - 64px)">
-      <div
-        class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center mb-5">
+      <nav
+        class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between p-5 is-align-items-center">
         <p class="is-size-5">Calorie Tracker</p>
         <figure class="image is-48x48">
           <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" />
         </figure>
-      </div>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-screen-sm p-5 tw-bg-gray-500" style="min-height: calc(100vh - 64px)">
       <div class="mb-5">
         <p class="is-size-3">Hi, what are you going to eat today?</p>
         <div class="is-flex is-flex-direction-row my-5">
@@ -133,7 +131,7 @@
       style="position: sticky; bottom: 0; width: 480px; margin-inline: auto"
       class="has-background-black-bis">
       <nav class="oh-my-navbar">
-        <a id="menu-home" class="item current" href="/">
+        <a id="menu-home" class="item current">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -152,7 +150,7 @@
           </svg>
           <span>Home</span>
         </a>
-        <a id="menu-search" class="item" id="search-meals">
+        <a id="menu-search" class="item">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"

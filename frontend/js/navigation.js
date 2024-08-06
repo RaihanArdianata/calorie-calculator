@@ -4,32 +4,37 @@ $(document).ready(() => {
   const menuUser = $('#menu-user');
   const menuProfile = $('#menu-profile');
 
+  function updateMenu(menuItem) {
+    $('.current').removeClass('current');
+    menuItem.addClass('current');
+  }
+
   menuHome.click(function () {
     location.replace('index.html');
-    menuHome.addClass('current');
-    menuSearch.removeClass('current');
-    menuUser.removeClass('current');
-    menuProfile.removeClass('current');
+    updateMenu(menuHome);
   });
   menuSearch.click(function () {
-    location.replace('index.html');
-    menuSearch.addClass('current');
-    menuHome.removeClass('current');
-    menuUser.removeClass('current');
-    menuProfile.removeClass('current');
+    location.replace('search.html');
+    updateMenu(menuSearch);
   });
   menuUser.click(function () {
     location.replace('users.html');
-    menuUser.addClass('current');
-    menuSearch.removeClass('current');
-    menuHome.removeClass('current');
-    menuProfile.removeClass('current');
+    updateMenu(menuUser);
   });
   menuProfile.click(function () {
     location.replace('profile.html');
-    menuProfile.addClass('current');
-    menuSearch.removeClass('current');
-    menuUser.removeClass('current');
-    menuHome.removeClass('current');
+    updateMenu(menuProfile);
   });
+
+  console.log();
+
+  if (window.location.href.includes('search')) {
+    updateMenu(menuSearch);
+  } else if (window.location.href.includes('user')) {
+    updateMenu(menuUser);
+  } else if (window.location.href.includes('profile')) {
+    updateMenu(menuProfile);
+  } else {
+    updateMenu(menuHome);
+  }
 });
