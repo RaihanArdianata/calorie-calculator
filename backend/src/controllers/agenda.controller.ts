@@ -12,8 +12,10 @@ export const show = catchAsync(async ctx => {
 export const find = catchAsync(async ctx => {
   const { id } = ctx.get("jwtPayload");
   const agendaName = ctx.req.query('agendaName');
+  const startDate = ctx.req.query('startDate');
+  const endDate = ctx.req.query('endDate');
 
-  const data = await findMealAgendaByUserId({ data: { user_id: id, agenda_name: agendaName as AgendaName || "SNACK" } });
+  const data = await findMealAgendaByUserId({ data: { user_id: id, agenda_name: agendaName as AgendaName || "SNACK" }, startOfDay: new Date(startDate || new Date()), endOfDay: new Date(endDate || new Date()) });
   return ctx.json({ data });
 });
 

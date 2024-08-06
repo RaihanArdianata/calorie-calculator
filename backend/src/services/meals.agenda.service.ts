@@ -52,15 +52,20 @@ export const getMealAgenda = () => {
   });
 };
 
-export const getMealAgendaByUserId = ({ data }: { data: MealsAgendaTypes; }) => {
+export const getMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date; endOfDay?: Date; }) => {
   return prisma.meals_agenda.findMany({
     where: {
-      user_id: data.id
+      user_id: data.id,
+      OR: [{
+        agenda_name: { equals: data.agenda_name },
+      },
+      { created_at: { gte: startOfDay } },
+      { created_at: { lt: endOfDay } }]
     }
   });
 };
 
-export const findMealAgendaByUserId = ({ data }: { data: MealsAgendaTypes; }) => {
+export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date; endOfDay?: Date; }) => {
   return prisma.meals_agenda.findMany({
     where: {
       OR: [
@@ -69,6 +74,8 @@ export const findMealAgendaByUserId = ({ data }: { data: MealsAgendaTypes; }) =>
           OR: [
             { agenda_name: data.agenda_name },
             { id: data.id },
+            { created_at: { gte: startOfDay } },
+            { created_at: { lt: endOfDay } }
           ]
         }
       ]
