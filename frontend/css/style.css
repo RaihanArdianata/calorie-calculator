@@ -53,3 +53,17 @@ body {
     color: hsl(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l)) !important;
   }
 }
+
+div #content-accordion {
+  display: none;
+}
+
+.hover:hover {
+  border-bottom: 1px solid white;
+}
+
+.hover {
+  padding-bottom: 10px;
+  border-bottom: 1px solid white;
+  margin-bottom: 10px;
+}

@@ -1,5 +1,6 @@
 import externalApiService from './api/externalApiService.js';
 import apiService from './api/apiService.js';
+import { areaToISOCode } from './api/listArea.js';
 
 $(document).ready(() => {
   // state
@@ -12,11 +13,13 @@ $(document).ready(() => {
   };
 
   let agendaData = {
-    breakfast: { total_calorie: 0, target_calorie: 0 },
-    lunch: { total_calorie: 0, target_calorie: 0 },
-    dinner: { total_calorie: 0, target_calorie: 0 },
-    snack: { total_calorie: 0, target_calorie: 0 },
+    breakfast: { total_calorie: 0, target_calorie: 0, data: [] },
+    lunch: { total_calorie: 0, target_calorie: 0, data: [] },
+    dinner: { total_calorie: 0, target_calorie: 0, data: [] },
+    snack: { total_calorie: 0, target_calorie: 0, data: [] },
   };
+
+  const groupAgendaData = {};
 
   // selector
   const mealsContainer = $('#meals');
@@ -28,7 +31,7 @@ $(document).ready(() => {
 
     agenda.forEach((item) => {
       agendaContainer.append(`
-          <div class="card">
+          <div id="accordion" class="card accordion">
             <header class="card-header">
               <p class="card-header-title">${item?.toLowerCase()}</p>
               <button class="card-header-icon" aria-label="more options">
@@ -54,19 +57,53 @@ $(document).ready(() => {
       }">15%</progress>
               </div>
             </div>
-            <footer class="card-footer">
-              <a href="#" class="card-footer-item">View</a>
+            <footer class="card-footer" id="btn-view-${item}">
             </footer>
+            <div id="content-accordion" class="content-${item?.toLowerCase()} card-content">
+              <div id="list-${item?.toLowerCase()}" class="is-flex is-flex-direction-column" style="gap: 4px">
+
+              </div>
+              <div></div>
+            </div>
           </div>  
         `);
+
+      groupAgendaData[item?.toLowerCase()]?.forEach((data) => {
+        console.log(data);
+        $(`#list-${item?.toLowerCase()}`).append(`
+            <input id="${data?.meal?.external_id}" value="${
+          data?.meal?.external_id
+        }" style="visibility: hidden"/>
+            <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between hover" style="gap: 4px">
+              <div>
+                <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
+                  <p>${data?.meal?.name}</p>
+                  <span class="fi fi-${areaToISOCode[data?.meal?.area].toLowerCase()}"></span>
+                </div>
+                <span class="tag is-primary">${data?.total_calorie?.toFixed(0)} Kcal</span>
+              </div>
+              <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
+                <button class="delete" aria-label="close"></button>
+              </div>
+            </div>
+          `);
+      });
+      const button = $('<button></button>')
+        .attr('id', `view-button-${item}`)
+        .addClass('card-footer-item view-modal')
+        .text('View')
+        .on('click', () => $(`.content-${item?.toLowerCase()}`).slideToggle('fast'));
+
+      $(`#btn-view-${item}`).append(button);
     });
+
+    // $('.accordion').click(function () {
+    //   const lowerCaseItem = $(this).find('.card-header-title').text();
+    //   $(this).find(`.content-${lowerCaseItem}`).slideToggle('slow');
+    // });
   };
 
   const fetchCalories = () => {
-    const bodyRequest = {
-      username: '',
-      password: '',
-    };
     const startDate = new Date();
     const endDate = new Date();
     startDate.setHours(0, 0, 0, 0);
@@ -79,38 +116,41 @@ $(document).ready(() => {
         const { data } = response;
 
         if (Array.isArray(data)) {
-          data.forEach(
-            ({
+          data.forEach((item) => {
+            const {
               meal,
               total_calorie: total_calorie_db,
               target_calorie: target_calorie_db,
               agenda_name,
-            }) => {
-              const { tr_ingredients } = meal;
+            } = item;
+            const { tr_ingredients } = meal;
 
-              if (Array.isArray(tr_ingredients)) {
-                tr_ingredients.forEach(({ ingredient }) => {
-                  console.log(ingredient?.calories);
+            if (groupAgendaData.hasOwnProperty(`${agenda_name?.toLowerCase()}`)) {
+              groupAgendaData[`${agenda_name?.toLowerCase()}`].push(item);
+            } else {
+              groupAgendaData[`${agenda_name?.toLowerCase()}`] = [item];
+            }
 
-                  nutritionRecord.calories += ingredient?.calories || 0;
-                  nutritionRecord.fat += ingredient?.fat_total_g || 0;
-                  nutritionRecord.protein += ingredient?.protein_g || 0;
-                  nutritionRecord.sugar += ingredient?.sugar_g || 0;
-                });
-              }
+            if (Array.isArray(tr_ingredients)) {
+              tr_ingredients.forEach(({ ingredient }) => {
+                nutritionRecord.calories += ingredient?.calories || 0;
+                nutritionRecord.fat += ingredient?.fat_total_g || 0;
+                nutritionRecord.protein += ingredient?.protein_g || 0;
+                nutritionRecord.sugar += ingredient?.sugar_g || 0;
+              });
+            }
 
-              if (agendaData?.[agenda_name?.toLowerCase()]) {
-                const { total_calorie, target_calorie } = agendaData?.[agenda_name?.toLowerCase()];
-                agendaData = {
-                  ...agendaData,
-                  [agenda_name?.toLowerCase()]: {
-                    total_calorie: total_calorie + total_calorie_db,
-                    target_calorie: target_calorie + target_calorie_db,
-                  },
-                };
-              }
-            },
-          );
+            if (agendaData?.[agenda_name?.toLowerCase()]) {
+              const { total_calorie, target_calorie } = agendaData?.[agenda_name?.toLowerCase()];
+              agendaData = {
+                ...agendaData,
+                [agenda_name?.toLowerCase()]: {
+                  total_calorie: total_calorie + total_calorie_db,
+                  target_calorie: target_calorie + target_calorie_db,
+                },
+              };
+            }
+          });
         }
 
         $('#p-calories').attr('value', nutritionRecord.calories);
@@ -125,7 +165,12 @@ $(document).ready(() => {
         generateAgenda();
       })
       .fail((jqXHR, textStatus, errorThrown) => {
-        alert('Error Login', textStatus, errorThrown);
+        if (jqXHR.status === 401) {
+          location.replace('login.html');
+          alert('Unauthorized');
+        } else {
+          alert('Error Fetch', textStatus, errorThrown);
+        }
       });
   };
 
@@ -149,7 +194,12 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
-        alert('Error fetch:', textStatus, errorThrown);
+        if (jqXHR.status === 401) {
+          location.replace('login.html');
+          alert('Unauthorized');
+        } else {
+          alert('Error Fetch', textStatus, errorThrown);
+        }
       });
   };
 
@@ -186,7 +236,12 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
-        alert('Error fetch:', textStatus, errorThrown);
+        if (jqXHR.status === 401) {
+          location.replace('login.html');
+          alert('Unauthorized');
+        } else {
+          alert('Error Fetch', textStatus, errorThrown);
+        }
       });
   };
 
