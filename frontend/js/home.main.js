@@ -1,8 +1,10 @@
 import externalApiService from './api/externalApiService.js';
+import apiService from './api/apiService.js';
 
 $(document).ready(() => {
   // state
   const agenda = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
+  const nutritionRecord = { calories: 0, fat: 0, protein: 0, sugar: 0 };
 
   // selector
   const mealsContainer = $('#meals');
@@ -36,6 +38,49 @@ $(document).ready(() => {
           </div>  
         `);
     });
+  };
+
+  const fetchCalories = () => {
+    const bodyRequest = {
+      username: '',
+      password: '',
+    };
+
+    apiService
+      .get(`api/agenda?startDate=${new Date()}&endDate=${new Date()}`)
+      .done((response) => {
+        const { data } = response;
+
+        console.log(response);
+
+        if (Array.isArray(data)) {
+          data.forEach(({ meal }) => {
+            const { tr_ingredients } = meal;
+            if (Array.isArray(tr_ingredients)) {
+              tr_ingredients.forEach(({ ingredient }) => {
+                console.log(ingredient?.calories);
+
+                nutritionRecord.calories += ingredient?.calories || 0;
+                nutritionRecord.fat += ingredient?.fat_total_g || 0;
+                nutritionRecord.protein += ingredient?.protein_g || 0;
+                nutritionRecord.sugar += ingredient?.sugar_g || 0;
+              });
+            }
+          });
+        }
+
+        $('#p-calories').attr('value', nutritionRecord.calories);
+        $('#p-fat').attr('value', nutritionRecord.fat);
+        $('#p-protein').attr('value', nutritionRecord.protein);
+        $('#p-sugar').attr('value', nutritionRecord.sugar);
+        $('#t-calories').text(`${nutritionRecord.calories.toFixed(0)} / 2000`);
+        $('#t-fat').text(`${nutritionRecord.fat.toFixed(0)} / 78`);
+        $('#t-protein').text(`${nutritionRecord.protein.toFixed(0)} / 175`);
+        $('#t-sugar').text(`${nutritionRecord.sugar.toFixed(0)} / 50`);
+      })
+      .fail((jqXHR, textStatus, errorThrown) => {
+        alert('Error Login', textStatus, errorThrown);
+      });
   };
 
   const fetchCategories = () => {
@@ -111,5 +156,6 @@ $(document).ready(() => {
 
   // generate first
   fetchCategories();
+  fetchCalories();
   generateAgenda();
 });
