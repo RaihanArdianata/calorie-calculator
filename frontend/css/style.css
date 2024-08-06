@@ -38,7 +38,8 @@ body {
   background-color: var(--bulma-scheme-main) !important;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-evenly;
+  align-items: flex-end;
   padding: 0.5em;
   position: relative;
   a.item {
@@ -48,16 +49,7 @@ body {
     color: var(--bulma-text) !important;
   }
 
-  a[aria-current='page'] {
-    animation: slideUp 1s;
-    width: 5em;
-    height: 5em;
-    position: absolute;
-    background-color: var(--bulma-scheme-main) !important;
-    color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1) !important;
-    border: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1), solid;
-    border-radius: 5em;
-    justify-content: center;
-    top: -1em;
+  a.item.current {
+    color: hsl(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l)) !important;
   }
 }
