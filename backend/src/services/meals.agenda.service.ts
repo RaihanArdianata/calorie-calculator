@@ -3,12 +3,15 @@ import * as _ from 'lodash';
 import { MealsAgendaTypes } from "../types/db-schema/meal.agenda";
 
 export const createMealsAgenda = ({ data }: { data: MealsAgendaTypes; }) => {
+  console.log(data, "-----data----");
+
   return prisma.meals_agenda.create({
     data: {
       agenda_name: data.agenda_name!,
       meal_id: data.meal_id!,
       user_id: data.user_id!,
-      time: data.time
+      time: data.time,
+      target_calorie: Number(data.target_calorie! || 0)
     }
   });
 };
@@ -22,7 +25,8 @@ export const updateMealsAgenda = ({ data }: { data: MealsAgendaTypes; }) => {
     data: {
       agenda_name: data.agenda_name!,
       meal_id: data.meal_id!,
-      time: data.time
+      time: data.time,
+      target_calorie: Number(data.target_calorie! || 0)
     }
   });
 };

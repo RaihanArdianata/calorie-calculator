@@ -47,8 +47,9 @@ $(document).ready(() => {
     };
     const startDate = new Date();
     const endDate = new Date();
-    startDate.setTime(startDate.getTime() + 1 * 60 * 1000);
+    startDate.setHours(0, 0, 0, 0);
     endDate.setDate(startDate.getDate() + 1);
+    endDate.setHours(0, 0, 0, 0);
 
     apiService
       .get(`api/agenda?startDate=${startDate}&endDate=${endDate}`)

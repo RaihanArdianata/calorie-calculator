@@ -14,7 +14,7 @@ export const register = catchAsync(async (c) => {
 
   const taken = await isEmailOrUsernameTaken(`${firstName.toLowerCase()}_${lastName.toLowerCase()}`, email);
 
-  if (taken) throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "your name or email is already taken!"});
+  if (taken) throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "your name or email is already taken!" });
 
   const result = await createUser({
     email, first_name: firstName, last_name: lastName, password, phone
@@ -33,8 +33,8 @@ export const login = catchAsync(async (c) => {
     const verifiedPassword = await bcryptVerify(password, findUser.password);
     if (verifiedPassword) {
       const { id, email, first_name, last_name } = findUser;
-      const token = await generateToken({ email, id });
-      return c.json({ first_name, last_name, email, authoritation: { token: token } });
+      const { token, exp } = await generateToken({ email, id });
+      return c.json({ first_name, last_name, email, authoritation: { token, exp } });
     }
     throw new ApiError(HttpStatus.UNAUTHORIZED, { message: "unauthorize" });
   }
