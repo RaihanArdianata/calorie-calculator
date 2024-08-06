@@ -67,3 +67,7 @@ div #content-accordion {
   border-bottom: 1px solid white;
   margin-bottom: 10px;
 }
+
+.max-w-screen-sm {
+  max-width: 480px !important;
+}
