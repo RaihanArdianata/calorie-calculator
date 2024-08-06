@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calorie Calculator</title>
+
     <!-- flag css -->
     <link
       rel="stylesheet"
@@ -16,6 +17,8 @@
     <script src="./js/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
     <script type="module" src="js/home.main.js"></script>
+    <!-- route -->
+    <script src="./js/navigation.js"></script>
   </head>
 
   <body>
@@ -130,7 +133,7 @@
       style="position: sticky; bottom: 0; width: 480px; margin-inline: auto"
       class="has-background-black-bis">
       <nav class="oh-my-navbar">
-        <a class="item current" href="/">
+        <a id="menu-home" class="item current" href="/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -149,7 +152,7 @@
           </svg>
           <span>Home</span>
         </a>
-        <a href="#" class="item" id="search-meals">
+        <a id="menu-search" class="item" id="search-meals">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -167,7 +170,7 @@
           </svg>
           <span>Search</span>
         </a>
-        <a href="/users.html" class="item">
+        <a id="menu-user" class="item">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -186,7 +189,7 @@
           </svg>
           <span>Users</span>
         </a>
-        <a class="item" href="/profile.html">
+        <a id="menu-profile" class="item">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
