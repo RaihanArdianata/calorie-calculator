@@ -58,14 +58,15 @@ export const getMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: Me
       user_id: data.id,
       OR: [{
         agenda_name: data.agenda_name,
-      },
-      { created_at: { gte: startOfDay } },
-      { created_at: { lt: endOfDay } }]
+      },]
     }
   });
 };
 
 export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date | string; endOfDay?: Date | string; }) => {
+
+  console.log((startOfDay && _.isDate(new Date(startOfDay)) ? { created_at: { gte: new Date(startOfDay), ...(endOfDay && _.isDate(new Date(endOfDay)) ? { lte: new Date(endOfDay) } : {}) } } : {}),
+  );
 
   return prisma.meals_agenda.findMany({
     where: {
@@ -76,11 +77,9 @@ export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: M
           {
             agenda_name: data.agenda_name,
           },
-          (startOfDay && _.isDate(new Date(startOfDay)) ? { created_at: { gte: new Date(startOfDay) } } : {}),
-          (endOfDay && _.isDate(new Date(endOfDay)) ? { created_at: { lte: new Date(endOfDay) } } : {})
-
-        ]
-      }
+          (startOfDay && _.isDate(new Date(startOfDay)) ? { created_at: { gte: new Date(startOfDay), ...(endOfDay && _.isDate(new Date(endOfDay)) ? { lte: new Date(endOfDay) } : {}) } } : {}),
+        ],
+      },
     },
     include: {
       meal: {
