@@ -65,9 +65,6 @@ export const getMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: Me
 
 export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date | string; endOfDay?: Date | string; }) => {
 
-  console.log((startOfDay && _.isDate(new Date(startOfDay)) ? { created_at: { gte: new Date(startOfDay), ...(endOfDay && _.isDate(new Date(endOfDay)) ? { lte: new Date(endOfDay) } : {}) } } : {}),
-  );
-
   return prisma.meals_agenda.findMany({
     where: {
       user_id: data.user_id,
