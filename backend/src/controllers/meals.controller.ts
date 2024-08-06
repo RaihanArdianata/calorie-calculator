@@ -19,7 +19,7 @@ export const getMealIngeredientsByMealId = catchAsync(async (c) => {
     }
     const { meals }: any = await response.json();
 
-    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal })) });
+    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal, name: item?.strMeal, area: item?.strArea })) });
 
     // get ingridients
     const { ingredientsNames } = ingredientsExtractor(meals[0]);
@@ -79,7 +79,7 @@ export const findMealByExternalId = catchAsync(async (c) => {
     }
     const { meals }: any = await response.json();
 
-    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal })) });
+    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal, name: item?.strMeal, area: item?.strArea })) });
 
     // get ingridients
     const { ingredientsNames } = ingredientsExtractor(meals[0]);
