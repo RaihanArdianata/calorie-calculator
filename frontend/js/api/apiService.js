@@ -5,9 +5,7 @@ const apiService = {
         return $.ajax({
             url: `${API_BASE_URL}/${endpoint}`,
             method: method,
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            dataType: 'json'
+            data,
         });
     },
 

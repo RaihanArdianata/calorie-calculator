@@ -7,8 +7,7 @@ import * as validator from "../utils/validator/agenda.validator";
 
 const app = new Hono();
 
-app.get("/", authentication, authenticationUser, controller.show);
-app.get("/:agendaName", authentication, authenticationUser, controller.find);
+app.get("/", authentication, authenticationUser, controller.find);
 app.post("/", authentication, authenticationUser, validate(validator.createSchema), controller.create);
 app.patch("/:agendaId", authentication, authenticationUser, validate(validator.updateSchema), controller.update);
 app.delete("/:agendaId", authentication, authenticationUser, controller.remove);
