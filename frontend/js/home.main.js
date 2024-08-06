@@ -4,7 +4,19 @@ import apiService from './api/apiService.js';
 $(document).ready(() => {
   // state
   const agenda = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
-  const nutritionRecord = { calories: 0, fat: 0, protein: 0, sugar: 0 };
+  const nutritionRecord = {
+    calories: 0,
+    fat: 0,
+    protein: 0,
+    sugar: 0,
+  };
+
+  let agendaData = {
+    breakfast: { total_calorie: 0, target_calorie: 0 },
+    lunch: { total_calorie: 0, target_calorie: 0 },
+    dinner: { total_calorie: 0, target_calorie: 0 },
+    snack: { total_calorie: 0, target_calorie: 0 },
+  };
 
   // selector
   const mealsContainer = $('#meals');
@@ -12,6 +24,8 @@ $(document).ready(() => {
   const agendaContainer = $('#agenda');
 
   const generateAgenda = () => {
+    agendaContainer.empty();
+
     agenda.forEach((item) => {
       agendaContainer.append(`
           <div class="card">
@@ -25,11 +39,19 @@ $(document).ready(() => {
             </header>
             <div class="card-content">
               <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis
-                mauris.
-                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
-                <br />
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                <div
+                  class="is-flex is-flex-direction-Rrow is-justify-content-space-between is-align-items-center"
+                  style="text-align: right">
+                  <p class="">calories</p>
+                  <p class="" id="t-card">${
+                    agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                  } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
+                </div>
+                <progress class="progress is-small is-primary" value="${
+                  agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                }" max="${
+        agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
+      }">15%</progress>
               </div>
             </div>
             <footer class="card-footer">
@@ -56,22 +78,39 @@ $(document).ready(() => {
       .done((response) => {
         const { data } = response;
 
-        console.log(response);
-
         if (Array.isArray(data)) {
-          data.forEach(({ meal }) => {
-            const { tr_ingredients } = meal;
-            if (Array.isArray(tr_ingredients)) {
-              tr_ingredients.forEach(({ ingredient }) => {
-                console.log(ingredient?.calories);
+          data.forEach(
+            ({
+              meal,
+              total_calorie: total_calorie_db,
+              target_calorie: target_calorie_db,
+              agenda_name,
+            }) => {
+              const { tr_ingredients } = meal;
 
-                nutritionRecord.calories += ingredient?.calories || 0;
-                nutritionRecord.fat += ingredient?.fat_total_g || 0;
-                nutritionRecord.protein += ingredient?.protein_g || 0;
-                nutritionRecord.sugar += ingredient?.sugar_g || 0;
-              });
-            }
-          });
+              if (Array.isArray(tr_ingredients)) {
+                tr_ingredients.forEach(({ ingredient }) => {
+                  console.log(ingredient?.calories);
+
+                  nutritionRecord.calories += ingredient?.calories || 0;
+                  nutritionRecord.fat += ingredient?.fat_total_g || 0;
+                  nutritionRecord.protein += ingredient?.protein_g || 0;
+                  nutritionRecord.sugar += ingredient?.sugar_g || 0;
+                });
+              }
+
+              if (agendaData?.[agenda_name?.toLowerCase()]) {
+                const { total_calorie, target_calorie } = agendaData?.[agenda_name?.toLowerCase()];
+                agendaData = {
+                  ...agendaData,
+                  [agenda_name?.toLowerCase()]: {
+                    total_calorie: total_calorie + total_calorie_db,
+                    target_calorie: target_calorie + target_calorie_db,
+                  },
+                };
+              }
+            },
+          );
         }
 
         $('#p-calories').attr('value', nutritionRecord.calories);
@@ -82,6 +121,8 @@ $(document).ready(() => {
         $('#t-fat').text(`${nutritionRecord.fat.toFixed(0)} / 78`);
         $('#t-protein').text(`${nutritionRecord.protein.toFixed(0)} / 175`);
         $('#t-sugar').text(`${nutritionRecord.sugar.toFixed(0)} / 50`);
+
+        generateAgenda();
       })
       .fail((jqXHR, textStatus, errorThrown) => {
         alert('Error Login', textStatus, errorThrown);
