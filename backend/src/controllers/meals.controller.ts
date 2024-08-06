@@ -56,8 +56,6 @@ export const getMealIngeredientsByMealId = catchAsync(async (c) => {
     }
     const ingredientsData = await findIngredientByNames({ names: ingredientsNames });
 
-    console.log(ingredientsData, "-----ingredientsData------");
-
     return c.json({ data: ingredientsData });
 
   }
