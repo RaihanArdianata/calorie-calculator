@@ -45,9 +45,13 @@ $(document).ready(() => {
       username: '',
       password: '',
     };
+    const startDate = new Date();
+    const endDate = new Date();
+    startDate.setTime(startDate.getTime() + 1 * 60 * 1000);
+    endDate.setDate(startDate.getDate() + 1);
 
     apiService
-      .get(`api/agenda?startDate=${new Date()}&endDate=${new Date()}`)
+      .get(`api/agenda?startDate=${startDate}&endDate=${endDate}`)
       .done((response) => {
         const { data } = response;
 

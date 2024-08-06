@@ -9,3 +9,13 @@ export const createManyTrIngredients = ({ data }: { data: trIngredientTypesManda
     data: resData
   });
 };
+export const find = ({ mealId }: { mealId: string; }) => {
+  return prisma.tr_ingredients.findMany({
+    where: {
+      meal_id: mealId
+    },
+    include: {
+      ingredient: true
+    }
+  });
+};

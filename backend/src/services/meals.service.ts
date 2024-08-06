@@ -12,7 +12,7 @@ export const findMeal = ({ external_id, id }: mealTypes) => {
   return prisma.meals.findFirst({
     where: {
       OR: [
-        { external_id: external_id },
+        { external_id: external_id || id },
         { id: id }
       ]
     },
@@ -27,14 +27,14 @@ export const findMeal = ({ external_id, id }: mealTypes) => {
 };
 
 export const findUser = (id: string) => prisma.users.findMany({
-    where: {
-      favorite_meals: {
-        some: {
-          OR: [
-            { id },
-            { external_id: id }
-          ]
-        }
+  where: {
+    favorite_meals: {
+      some: {
+        OR: [
+          { id },
+          { external_id: id }
+        ]
       }
     }
-  })
+  }
+});
