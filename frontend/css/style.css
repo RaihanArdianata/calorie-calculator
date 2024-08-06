@@ -35,6 +35,7 @@ body {
 }
 
 .oh-my-navbar {
+  background-color: var(--bulma-scheme-main) !important;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -44,7 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: var(--bulma-text) !important;
   }
 
   a[aria-current='page'] {
@@ -52,8 +53,8 @@ body {
     width: 5em;
     height: 5em;
     position: absolute;
-    background-color: #14161a;
-    color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1);
+    background-color: var(--bulma-scheme-main) !important;
+    color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1) !important;
     border: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1), solid;
     border-radius: 5em;
     justify-content: center;
