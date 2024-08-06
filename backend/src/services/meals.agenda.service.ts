@@ -57,7 +57,7 @@ export const getMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: Me
     where: {
       user_id: data.id,
       OR: [{
-        agenda_name: { equals: data.agenda_name },
+        agenda_name: data.agenda_name,
       },
       { created_at: { gte: startOfDay } },
       { created_at: { lt: endOfDay } }]
@@ -65,20 +65,22 @@ export const getMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: Me
   });
 };
 
-export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date; endOfDay?: Date; }) => {
+export const findMealAgendaByUserId = ({ data, endOfDay, startOfDay }: { data: MealsAgendaTypes; startOfDay?: Date | string; endOfDay?: Date | string; }) => {
+
   return prisma.meals_agenda.findMany({
     where: {
-      OR: [
-        { user_id: data.user_id },
-        {
-          OR: [
-            { agenda_name: data.agenda_name },
-            { id: data.id },
-            { created_at: { gte: startOfDay } },
-            { created_at: { lt: endOfDay } }
-          ]
-        }
-      ]
+      user_id: data.user_id,
+      AND: {
+        OR: [
+          { id: data.id },
+          {
+            agenda_name: data.agenda_name,
+          },
+          (startOfDay && _.isDate(new Date(startOfDay)) ? { created_at: { gte: new Date(startOfDay) } } : {}),
+          (endOfDay && _.isDate(new Date(endOfDay)) ? { created_at: { lte: new Date(endOfDay) } } : {})
+
+        ]
+      }
     },
     include: {
       meal: {
