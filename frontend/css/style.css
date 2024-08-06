@@ -5,6 +5,26 @@ body {
   font-family: 'Lato', sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: solid 1px #00bb9f;
+  background: #01e9c6;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #01e9c6;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
 @keyframes slideUp {
   0% {
     top: 0em;
@@ -27,14 +47,14 @@ body {
     color: white;
   }
 
-  a[aria-current="page"] {
+  a[aria-current='page'] {
     animation: slideUp 1s;
     width: 5em;
     height: 5em;
     position: absolute;
     background-color: #14161a;
-    color: hsla(var(--bulma-primary-h),var(--bulma-primary-s),var(--bulma-primary-l), 1);
-    border: hsla(var(--bulma-primary-h),var(--bulma-primary-s),var(--bulma-primary-l), 1), solid;
+    color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1);
+    border: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l), 1), solid;
     border-radius: 5em;
     justify-content: center;
     top: -1em;

@@ -6,6 +6,7 @@ import { jwt } from 'hono/jwt';
 import type { JwtVariables } from 'hono/jwt';
 import routes from './routes';
 import { errorHandler } from './middleware/error.middleware';
+import { toQueryString } from './utils/queryString';
 
 type Variables = JwtVariables;
 
@@ -21,9 +22,35 @@ app.use(
     credentials: false,
   })
 );
+app.use(
+  '/proxy/*',
+  cors({
+    origin: ['*'],
+    allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: false,
+  })
+);
 app.use(logger());
 
 app.use('/api', timeout(5000));
+
+app.get('/proxy/mealdb/:request', async (ctx) => {
+  const request = ctx.req.param('request');
+  const query = ctx.req.query();
+  const queryString = toQueryString(query);
+
+  const url = `https://www.themealdb.com/api/json/v1/1/${request}?${queryString}`;
+  const response = await fetch(url);
+  console.log(url, queryString);
+
+  if (!response.ok) {
+    return ctx.json({ error: 'Failed to fetch data from external API' }, 500);
+  }
+  const data = await response.json();
+  return ctx.json(data);
+});
+
 app.use(
   '/auth/*',
   jwt({
