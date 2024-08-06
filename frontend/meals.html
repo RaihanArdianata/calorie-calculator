@@ -49,10 +49,42 @@
         </a>
       </nav>
     </footer>
-    <div id="modal-user-create"></div>
-    <div id="modal-user-read"></div>
-    <div id="modal-user-update"></div>
-    <div id="modal-user-delete"></div>
-    <div id="modal-container"></div>
+    <div class="modal" id="modal-calc"></div>
+    <style>
+    @keyframes progressUp {
+      0% {
+        margin-bottom: -100%;  
+      }
+      100% {
+        margin-bottom: 0;
+      }
+    }
+    .progress-box {
+      position: relative;
+      height: 9em;
+      margin-inline: auto;
+      display: flex;
+      align-items: flex-end;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: var(--bulma-border);
+      h3 {
+        color: white;
+        display: flex;
+        width: fit-content;
+        height: fit-content;
+        font-weight: bolder;
+        position: absolute;
+        inset: 0;   
+        margin: auto;
+      }
+    }
+
+    .progress-bar {
+      animation: progressUp 1s;
+      width: 100%;
+      background-color: hsl(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l));
+    }
+    </style>
   </body>
 </html>
