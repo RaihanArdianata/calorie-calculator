@@ -16,88 +16,48 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- local module -->
-    <script type="module" src="js/home.main.js"></script>
+    <script type="module" src="js/search.main.js"></script>
     <script src="js/navigation.js"></script>
   </head>
 
   <body>
     <header>
       <nav
-        class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between p-5 is-align-items-center">
+        class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between px-5 pt-5 is-align-items-center">
         <p class="is-size-5">Calorie Tracker</p>
         <figure class="image is-48x48">
           <img class="is-rounded" src="https://bulma.io/assets/images/placeholders/128x128.png" />
         </figure>
       </nav>
     </header>
-    <main class="mx-auto max-w-screen-sm p-5 tw-bg-gray-500" style="min-height: calc(100vh - 64px)">
-      <div class="mb-5">
-        <p class="is-size-3">Hi, what are you going to eat today?</p>
-        <div class="is-flex is-flex-direction-row my-5">
-          <div class="cs-progress-container">
-            <progress
-              id="p-calories"
-              class="progress is-primary -cs-rotate-90"
-              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
-              value="0"
-              max="2000"></progress>
-            <div
-              class="is-flex is-flex-direction-column cs-progress-text"
-              style="text-align: center">
-              <p class="">Calories</p>
-              <p class="" id="t-calories" style="font-size: 10px"></p>
+    <main
+      class="mx-auto max-w-screen-sm px-5 pb-5 tw-bg-gray-500"
+      style="min-height: calc(100vh - 180px)">
+      <div class="">
+        <!-- seaction meals -->
+        <div class="my-5">
+          <div
+            class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between">
+            <div class="level-item" style="width: 100%">
+              <div class="field has-addons" style="width: 100%">
+                <p class="control" style="width: 100%">
+                  <input id="search-input" class="input" type="text" placeholder="Find a Meals" />
+                </p>
+                <p class="control">
+                  <button id="search-button" class="button">Search</button>
+                </p>
+              </div>
             </div>
           </div>
-          <div class="cs-progress-container">
-            <progress
-              id="p-fat"
-              class="progress is-primary -cs-rotate-90"
-              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
-              value="0"
-              max="78"></progress>
-            <div
-              class="is-flex is-flex-direction-column cs-progress-text"
-              style="text-align: center">
-              <p class="">Fat</p>
-              <p class="" id="t-fat" style="font-size: 10px"></p>
-            </div>
+          <div
+            class="is-flex is-flex-direction-row my-3 pb-2"
+            style="gap: 8px; max-width: 100%; overflow: auto"
+            id="categories">
+            <!-- list category here -->
           </div>
-          <div class="cs-progress-container">
-            <progress
-              id="p-protein"
-              class="progress is-primary -cs-rotate-90"
-              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
-              value="0"
-              max="175"></progress>
-            <div
-              class="is-flex is-flex-direction-column cs-progress-text"
-              style="text-align: center">
-              <p class="">Protein</p>
-              <p class="" id="t-protein" style="font-size: 10px"></p>
-            </div>
+          <div id="meals" class="is-flex is-flex-direction-column">
+            <!-- list meal here -->
           </div>
-          <div class="cs-progress-container">
-            <progress
-              id="p-sugar"
-              class="progress is-primary -cs-rotate-90"
-              style="width: 100px; height: 80px; margin-bottom: 0px; border-radius: 5px !important"
-              value="0"
-              max="50"></progress>
-            <div
-              class="is-flex is-flex-direction-column cs-progress-text"
-              style="text-align: center">
-              <p class="">Sugar</p>
-              <p class="" id="t-sugar" style="font-size: 10px"></p>
-            </div>
-          </div>
-        </div>
-        <p style="text-align: center"></p>
-      </div>
-      <!-- agenda -->
-      <div class="my-5">
-        <p class="is-size-6 my-5">Diet Record Today</p>
-        <div id="agenda" class="" style="text-transform: capitalize">
-          <!-- agenda card render here -->
         </div>
       </div>
     </main>

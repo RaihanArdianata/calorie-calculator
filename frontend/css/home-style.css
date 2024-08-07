@@ -1,8 +1,4 @@
-@import url("./style.css");
-
-.max-w-screen-sm {
-  max-width: 480px !important;
-}
+@import url('./style.css');
 
 .cs-progress-container {
   display: flex;
