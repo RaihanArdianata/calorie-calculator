@@ -1,5 +1,5 @@
 import apiService from './api/apiService.js';
-import { keyToken } from './constant/constant.js';
+import { keyToken, keyRole } from './constant/constant.js';
 import { modalOnClick } from './search-modal.js';
 import * as user from './user.main.js';
 import * as meals from './meals.main.js';
@@ -57,7 +57,8 @@ $(document).ready(() => {
                 hideLoader();
                 const { token } = response.authoritation
                 $('#message').removeClass('is-hidden').addClass('is-success').text('Login successful!');
-                localStorage.setItem(keyToken, token)
+                localStorage.setItem(keyToken, token);
+                localStorage.setItem(keyRole, response.authoritation.role_name);
                 setTimeout(() => {
                     location.replace('index.html');
                 }, 500)

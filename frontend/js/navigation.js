@@ -1,8 +1,12 @@
+import { keyRole } from "./constant/constant.js";
+
 $(document).ready(() => {
   const menuHome = $('#menu-home');
   const menuSearch = $('#menu-search');
   const menuUser = $('#menu-user');
   const menuProfile = $('#menu-profile');
+
+  if (localStorage.getItem(keyRole) === "ADMINISTRATOR") menuUser.show();
 
   function updateMenu(menuItem) {
     $('.current').removeClass('current');
