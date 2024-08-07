@@ -27,12 +27,15 @@ export const getUser = async ({ email, phone, username }: { email: string, phone
         { phone: await transformPhoneNumber(phone) },
         { username }
       ]
+    },
+    include: {
+      roles: true
     }
   });
 };
 
 export const createUser = async (data: UserTypes) => {
-  const role = await prisma.roles.findUnique({ where: { name: "USER" }});
+  const role = await prisma.roles.findUnique({ where: { name: "USER" } });
   return prisma.users.create({
     data: {
       email: data.email!,
