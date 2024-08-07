@@ -5,7 +5,7 @@ import { areaToISOCode } from './api/listArea.js';
 $(document).ready(() => {
   // state
   const agenda = ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'];
-  const nutritionRecord = {
+  let nutritionRecord = {
     calories: 0,
     fat: 0,
     protein: 0,
@@ -19,15 +19,15 @@ $(document).ready(() => {
     snack: { total_calorie: 0, target_calorie: 0, data: [] },
   };
 
-  const groupAgendaData = {};
+  let groupAgendaData = {};
 
   // selector
   const mealsContainer = $('#meals');
   const categoriesContainer = $('#categories');
   const agendaContainer = $('#agenda');
 
-  const generateAgenda = () => {
-    agendaContainer.empty();
+  const generateAgenda = async () => {
+    await agendaContainer.empty();
 
     agenda.forEach((item) => {
       agendaContainer.append(`
@@ -46,12 +46,15 @@ $(document).ready(() => {
                   class="is-flex is-flex-direction-Rrow is-justify-content-space-between is-align-items-center"
                   style="text-align: right">
                   <p class="">calories</p>
-                  <p class="" id="t-card">${agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
-        } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
+                  <p class="" id="t-card">${
+                    agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                  } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
                 </div>
-                <progress class="progress is-small is-primary" value="${agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
-        }" max="${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
-        }">15%</progress>
+                <progress class="progress is-small is-primary" value="${
+                  agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                }" max="${
+        agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
+      }">15%</progress>
               </div>
             </div>
             <footer class="card-footer" id="btn-view-${item}">
@@ -66,21 +69,22 @@ $(document).ready(() => {
         `);
 
       groupAgendaData[item?.toLowerCase()]?.forEach((data) => {
-        console.log(data);
         $(`#list-${item?.toLowerCase()}`).append(`
-            <input id="${data?.meal?.external_id}" value="${
-          data?.meal?.external_id
+            <div class="item-wrapper">
+              <input id="${data?.id}" class="input-agenda-id" value="${
+          data?.id
         }" style="visibility: hidden"/>
-            <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between hover" style="gap: 4px">
-              <div>
-                <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
-                  <p>${data?.meal?.name}</p>
-                  <span class="fi fi-${areaToISOCode[data?.meal?.area].toLowerCase()}"></span>
+              <div class="is-flex is-flex-direction-row is-align-items-center is-justify-content-space-between hover" style="gap: 4px">
+                <div>
+                  <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
+                    <p>${data?.meal?.name}</p>
+                    <span class="fi fi-${areaToISOCode[data?.meal?.area].toLowerCase()}"></span>
+                  </div>
+                  <span class="tag is-primary">${data?.total_calorie?.toFixed(0)} Kcal</span>
                 </div>
-                <span class="tag is-primary">${data?.total_calorie?.toFixed(0)} Kcal</span>
-              </div>
-              <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
-                <button class="delete" aria-label="close"></button>
+                <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
+                  <button id="delete-agenda" class="delete delete-agenda" aria-label="close"></button>
+                </div>
               </div>
             </div>
           `);
@@ -98,6 +102,26 @@ $(document).ready(() => {
     //   const lowerCaseItem = $(this).find('.card-header-title').text();
     //   $(this).find(`.content-${lowerCaseItem}`).slideToggle('slow');
     // });
+    $('.delete-agenda').on('click', function async() {
+      console.log('masuk');
+
+      const $agendaId = $(this).closest('.item-wrapper').find('.input-agenda-id');
+      const id = $agendaId.val();
+
+      apiService
+        .delete(`api/agenda/${id}`)
+        .done((response) => {
+          fetchCalories();
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+          if (jqXHR.status === 401) {
+            location.replace('login.html');
+            alert('Unauthorized');
+          } else {
+            alert('Error Fetch', textStatus, errorThrown);
+          }
+        });
+    });
   };
 
   const fetchCalories = () => {
@@ -106,6 +130,29 @@ $(document).ready(() => {
     startDate.setHours(0, 0, 0, 0);
     endDate.setDate(startDate.getDate() + 1);
     endDate.setHours(0, 0, 0, 0);
+
+    groupAgendaData = {};
+    agendaData = {
+      breakfast: { total_calorie: 0, target_calorie: 0, data: [] },
+      lunch: { total_calorie: 0, target_calorie: 0, data: [] },
+      dinner: { total_calorie: 0, target_calorie: 0, data: [] },
+      snack: { total_calorie: 0, target_calorie: 0, data: [] },
+    };
+    nutritionRecord = {
+      calories: 0,
+      fat: 0,
+      protein: 0,
+      sugar: 0,
+    };
+
+    $('#p-calories').attr('value', nutritionRecord.calories);
+    $('#p-fat').attr('value', nutritionRecord.fat);
+    $('#p-protein').attr('value', nutritionRecord.protein);
+    $('#p-sugar').attr('value', nutritionRecord.sugar);
+    $('#t-calories').text(`${nutritionRecord.calories.toFixed(0)} / 2000`);
+    $('#t-fat').text(`${nutritionRecord.fat.toFixed(0)} / 78`);
+    $('#t-protein').text(`${nutritionRecord.protein.toFixed(0)} / 175`);
+    $('#t-sugar').text(`${nutritionRecord.sugar.toFixed(0)} / 50`);
 
     apiService
       .get(`api/agenda?startDate=${startDate}&endDate=${endDate}`)
