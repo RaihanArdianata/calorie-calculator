@@ -3,12 +3,12 @@ import externalApiService from "./api/externalApiService.js";
 import { keyRole } from "./constant/constant.js";
 
 const renderCard
-= x => 
-`<div class="cell">
+= (x, y) => 
+`<div class="cell" id="${x.idMeal}-${y.id}" style="display: none;">
   <div class="card">
     <div class="card-header">
       <p class="card-header-title">${x.strMeal}</p>
-      <button class="card-header-icon">
+      <button class="card-header-icon" onclick="window.deleteMeal('${x.idMeal}', '${y.id}', this)">
         <span class="icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,21 +71,47 @@ $("#edit-profile").on("click", () => {
 
 window.accessMeal = id => window.location.replace("/meals.html?id=" + id);
 
+window.deleteMeal = (ex, fav, el) => {
+  const scope = $(el)
+    .addClass("button is-loading");
+  apiService
+    .delete(`api/meals/${ex}/favorite/${fav}`)
+    .done(_ => $(`#${ex}-${fav}`).fadeOut())
+    .fail(_ => scope.removeClass("buttom is-loading"));
+}
+
 const promiseGetMeal = id => new Promise(resolve => externalApiService.get(`lookup.php?i=${id}`).done(x => resolve(x.meals[0])));
 
 const renderProfile = async x => {
   console.log(x);
   syncForm(x);
-  $("#profile-username").text(x.data.username);
-  $("#profile-name").html(`<strong>${x.data.first_name}</strong> ${x.data.last_name}`);
-  if (x.data.roles.name !== "USER") $("#profile-roles")
-    .append($("<span class=\"tag is-danger\">Admin</span>"));
+  $("#profile-username")
+    .text(x.data.username)
+    .removeClass("is-skeleton")
+    .addClass("has-text-primary");
+  
+  $("#profile-name")
+    .removeClass("is-skeleton")
+    .html(`<strong>${x.data.first_name}</strong> ${x.data.last_name}`);
+  $("#profile-roles")
+    .append("<span class=\"tag is-info\">User</span>")
+    .append(
+      x.data.roles.name === "ADMINISTRATOR"
+        ? "<span class=\"tag is-danger\">Admin</span>" : ""
+    ).removeClass("is-skeleton");
   const mealDatas = await Promise.all(x
   .data
   .favorite_meals
   .map(y => promiseGetMeal(y.external_id)));
-  $("#fav-meals-list").html("");
-  for (const meal of mealDatas) $("#fav-meals-list").append($(renderCard(meal)));
+  const scopeList = $("#fav-meals-list")
+    .text("")
+    .removeClass("is-skeleton");
+  if (!mealDatas.length) return scopeList.append("No favorites meals");
+  mealDatas.forEach((y, i) => {
+    const itemScope = $(renderCard(y, x.data.favorite_meals[i]));
+    scopeList.append(itemScope);
+    setTimeout(() => itemScope.fadeIn(), 500 * (i+1));
+  })
 }
 export const whenLoaded = () => {
   if (window.location.pathname !== "/profile.html") return;
