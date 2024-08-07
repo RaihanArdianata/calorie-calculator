@@ -13,10 +13,14 @@ export const create = ({ data }: { data: favoritemealTypesMandatory; }) => {
 };
 
 
-export const find = ({ id }: { id: string; }) => {
+export const find = ({ id, external_id, user_id }: { user_id: string; id: string; external_id: string; }) => {
   return prisma.favorite_meals.findFirst({
     where: {
-      id: id
+      user_id: user_id,
+      OR: [
+        { id: id },
+        { external_id: external_id },
+      ]
     }
   });
 };
