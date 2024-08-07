@@ -1,4 +1,5 @@
 const API_BASE_URL = 'https://calorie-calculator-backend-xi.vercel.app';
+// const API_BASE_URL = "http://127.0.0.1:3000"
 const keyToken = 'tokenAuth';
 const storeToken = localStorage.getItem(keyToken);
 
@@ -27,8 +28,8 @@ const apiService = {
     return apiService.fetchData(endpoint, 'PATCH', data);
   },
 
-  delete: (endpoint) => {
-    return apiService.fetchData(endpoint, 'DELETE');
+  delete: (endpoint, data) => {
+    return apiService.fetchData(endpoint, 'DELETE', data);
   },
 };
 

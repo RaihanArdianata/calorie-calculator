@@ -4,9 +4,10 @@ import * as service from "../services/users.service";
 
 export const fetchAll = catchAsync(async ctx => {
   const query = ctx.req.query() as unknown as FetchAllSchemaType;
-  const datas = await service.fetchAll(query);
   const datasSize = await service.fetchDatabaseSize();
-  const totalPages = Math.ceil(datasSize/query.limit);
+  const totalPages = Math.ceil(datasSize/(query.limit ?? 10));
+  const datas = await service.fetchAll(query, totalPages);
+  if (query.page > totalPages) query.page = totalPages;
 
   return ctx.json({
     datas,
@@ -25,6 +26,7 @@ export const create = catchAsync(async ctx => {
 
 export const removes = catchAsync(async ctx => {
   const body = await ctx.req.parseBody() as unknown as DeleteSchemaType;
+  console.log(body);
   await service.removes(body);
 
   return ctx.json({});
