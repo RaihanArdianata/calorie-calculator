@@ -14,13 +14,25 @@ $(document).on('click', '.submit-button', function () {
   const mealId = $cardWrapper.find('.meal-id').val();
 
   apiService
-    .post(`api/agenda`, {
-      agenda_name: mealType,
-      meal_id: mealId,
-      target_calorie: targetCalorie,
-    })
+    .get(`api/meals/${mealId}`)
     .done((response) => {
-      console.log(response);
+      apiService
+        .post(`api/agenda`, {
+          agenda_name: mealType,
+          meal_id: mealId,
+          target_calorie: targetCalorie,
+        })
+        .done((response) => {
+          console.log(response);
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+          if (jqXHR.status === 401) {
+            location.replace('login.html');
+            alert('Unauthorized');
+          } else {
+            alert('Error Fetch', textStatus, errorThrown);
+          }
+        });
     })
     .fail((jqXHR, textStatus, errorThrown) => {
       if (jqXHR.status === 401) {
@@ -30,6 +42,24 @@ $(document).on('click', '.submit-button', function () {
         alert('Error Fetch', textStatus, errorThrown);
       }
     });
+
+  // apiService
+  //   .post(`api/agenda`, {
+  //     agenda_name: mealType,
+  //     meal_id: mealId,
+  //     target_calorie: targetCalorie,
+  //   })
+  //   .done((response) => {
+  //     console.log(response);
+  //   })
+  //   .fail((jqXHR, textStatus, errorThrown) => {
+  //     if (jqXHR.status === 401) {
+  //       location.replace('login.html');
+  //       alert('Unauthorized');
+  //     } else {
+  //       alert('Error Fetch', textStatus, errorThrown);
+  //     }
+  //   });
 });
 
 $(document).on('click', '.delete-button', function () {

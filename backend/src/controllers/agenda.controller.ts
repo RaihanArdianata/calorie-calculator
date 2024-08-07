@@ -51,14 +51,14 @@ export const create = catchAsync(async ctx => {
 
   let mealData = await findMeal({ id: body.meal_id });
 
-  if (_.isEmpty(mealData)) {
-    const { meals, insertedData } = await fetchAndCreateMeal(body.meal_id);
+  // if (_.isEmpty(mealData)) {
+  //   const { meals, insertedData } = await fetchAndCreateMeal(body.meal_id);
 
-    const { ingredientsNames } = ingredientsExtractor(meals[0]);
-    const ingredientsData = await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
+  //   const { ingredientsNames } = ingredientsExtractor(meals[0]);
+  //   const ingredientsData = await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
 
-    mealData = await findMeal({ id: body.meal_id });
-  }
+  //   mealData = await findMeal({ id: body.meal_id });
+  // }
 
   if (!mealData?.id) {
     throw new ApiError(httpStatus.NOT_FOUND, { message: "Data not found" });
