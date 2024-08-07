@@ -23,12 +23,12 @@
         </figure>
       </div>
     </header>
-    <main class="p-5 is-flex is-flex-direction-column">
+    <main class="p-5 is-flex is-flex-direction-column" style="min-height: calc(100vh - 128px); height: auto">
       <div class="columns is-mobile">
         <div class="column is-narrow">
           <div class="card">
             <div class="card-image">
-              <figure class="image">
+              <figure class="image is-128x128">
                 <img
                   class="image-avatar"
                   src="https://bulma.io/assets/images/placeholders/128x128.png" />
@@ -36,15 +36,21 @@
             </div>
           </div>
         </div>
-        <div class="column is-align-items-center is-flex">
+        <div class="column is-align-items-center is-flex is-narrow">
           <div class="content">
-            <h3 class="has-text-primary">Username</h3>
-            <p><strong>Firstname</strong> Secondname</p>
-            <div class="is-flex is-flex-direction-row" style="gap: 0.95rem">
+            <h3 class="has-text-primary" id="profile-username">Username</h3>
+            <p id="profile-name"><strong>Firstname</strong> Secondname</p>
+            <div id="profile-roles" class="is-flex is-flex-direction-row" style="gap: 0.95rem">
               <span class="tag is-info">User</span>
-              <span class="tag is-danger">Admin</span>
             </div>
           </div>
+        </div>
+        <div class="column">
+          <button class="button" id="edit-profile">
+            <span class="icon is-small has-text-warning">
+              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+            </span>
+          </button>
         </div>
       </div>
       <span class="icon-text has-text-info has-text-weight-bold mb-5">
@@ -71,160 +77,10 @@
         </span>
         <span class="is-size-4">Favorite Meals</span>
       </span>
-      <div class="grid">
+      <div class="grid" id="fav-meals-list">
         <div class="cell">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">Mandrake</p>
-              <button class="card-header-icon">
-                <span class="icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="card-image">
-              <figure class="image">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
-              </figure>
-            </div>
-          </div>
-        </div>
-        <div class="cell">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">Aparagus</p>
-              <button class="card-header-icon">
-                <span class="icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="card-image">
-              <figure class="image">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
-              </figure>
-            </div>
-          </div>
-        </div>
-        <div class="cell">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">Waluh</p>
-              <button class="card-header-icon">
-                <span class="icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="card-image">
-              <figure class="image">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
-              </figure>
-            </div>
-          </div>
-        </div>
-        <div class="cell">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">renginang</p>
-              <button class="card-header-icon">
-                <span class="icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="card-image">
-              <figure class="image">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
-              </figure>
-            </div>
-          </div>
-        </div>
-        <div class="cell">
-          <div class="card">
-            <div class="card-header">
-              <p class="card-header-title">Yang penting makan</p>
-              <button class="card-header-icon">
-                <span class="icon">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-x">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                  </svg>
-                </span>
-              </button>
-            </div>
-            <div class="card-image">
-              <figure class="image">
-                <img src="https://bulma.io/assets/images/placeholders/128x128.png" />
-              </figure>
-            </div>
+          <div class="content">
+            <h1>No Favorites Food</h1>
           </div>
         </div>
       </div>
@@ -311,5 +167,131 @@
       </nav>
     </footer>
     <div id="modal-container"></div>
+    <div class="modal" id="modal-update-profile">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Update</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="profile-update">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Name</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-grouped">
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="First Name" class="input" name="first_name"> 
+                  </p>
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="Second Name" class="input" name="last_name"> 
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Username</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="text" placeholder="e.g user_name" class="input" name="username">
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Phone number</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-expanded">
+                  <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">
+                        +62
+                      </a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input class="input" type="tel" placeholder="e.g 825xxxxxx" name="phone">
+                    </p>
+                  </div>
+                  <p class="help">Do not enter the first zero</p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Email</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="email" placeholder="e.g. email@example.com" class="input" name="email" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z" />
+                          <path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Password</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="password" placeholder="secret" class="input" name="password">
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z" />
+                          <path d="M15 9h.01" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label"></div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control is-expanded">
+                    <button class="button is-success">update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+    <style>
+      .show-pointer:hover {
+        cursor: pointer;
+      }
+    </style>
   </body>
 </html>

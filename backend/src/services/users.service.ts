@@ -37,10 +37,10 @@ export const create = async (data: CreateSchemaType) => {
   if (data.phone) data.phone = await transformPhoneNumber(data.phone!);
   return prisma.users.upsert({
     create: {
-      email: data.email!,
+      email: data.email ?? "no_email",
       first_name: data.first_name,
       last_name: data.last_name,
-      username: data.username!,
+      username: data.username ?? "no_username",
       role_id: role!.id,
       password: data.password ?? "no_password",
       phone: data.phone!
@@ -88,4 +88,17 @@ export const isEmailOrUsernameTaken = async (username: string, email: string) =>
   });
 
   return count > 0;
+}
+
+export const fetchProfileWithFavMeals = async (id: string) => {
+  return prisma.users.findFirst(
+    {
+      where: { id },
+      include: {
+        roles: {
+          select: { name: true }
+        },
+        favorite_meals: true
+      }
+    });
 }
