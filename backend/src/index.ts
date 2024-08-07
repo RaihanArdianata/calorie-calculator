@@ -33,7 +33,7 @@ app.use(
 );
 app.use(logger());
 
-app.use('/api', timeout(60000));// 1 minute
+app.use('/api', timeout(120000));// 1 minute
 
 app.get('/proxy/mealdb/:request', async (ctx) => {
   const request = ctx.req.param('request');

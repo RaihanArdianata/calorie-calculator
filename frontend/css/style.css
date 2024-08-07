@@ -57,6 +57,9 @@ body {
 div #content-accordion {
   display: none;
 }
+.d-none {
+  display: none;
+}
 
 .hover:hover {
   border-bottom: 1px solid white;
