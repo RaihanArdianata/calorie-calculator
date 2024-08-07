@@ -3,6 +3,11 @@ import { createMealsAgenda, deleteMealsAgenda, findMealAgendaByUserId, getMealAg
 import { catchAsync } from "../utils/catchAsync";
 import { CreateSchemaType, UpdateSchemaType } from "../utils/validator/agenda.validator";
 import * as _ from 'lodash';
+import { findMeal } from "../services/meals.service";
+import { fetchAndCreateIngredients, fetchAndCreateMeal } from "../utils/externalApi";
+import { ingredientsExtractor } from "../utils/ingredientsExtractor";
+import ApiError from "../utils/ApiError";
+import httpStatus = require("http-status");
 
 export const show = catchAsync(async ctx => {
   const { id } = ctx.get("jwtPayload");
@@ -44,7 +49,22 @@ export const create = catchAsync(async ctx => {
   const { id } = ctx.get("jwtPayload");
   const body = await ctx.req.parseBody() as unknown as CreateSchemaType;
 
-  const data = await createMealsAgenda({ data: { ...body, user_id: id, target_calorie: Number(body.target_calorie) } });
+  let mealData = await findMeal({ id: body.meal_id });
+
+  if (_.isEmpty(mealData)) {
+    const { meals, insertedData } = await fetchAndCreateMeal(body.meal_id);
+
+    const { ingredientsNames } = ingredientsExtractor(meals[0]);
+    const ingredientsData = await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
+
+    mealData = await findMeal({ id: body.meal_id });
+  }
+
+  if (!mealData?.id) {
+    throw new ApiError(httpStatus.NOT_FOUND, { message: "Data not found" });
+  }
+
+  const data = await createMealsAgenda({ data: { ...body, meal_id: mealData.id, user_id: id, target_calorie: Number(body.target_calorie) } });
   return ctx.json({ data });
 });
 

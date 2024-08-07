@@ -68,10 +68,42 @@ $(document).ready(() => {
                   <i class="fa fa-heart" aria-hidden="true"></i>
                   <i class="fa fa-heart hidden-id" aria-hidden="true" style="display: none">${idMeal}</i>
                 </div>
+                <div class="btn-add-agenda card-footer-item" style="cursor: pointer">
+                  <i class="fa fa-tasks" aria-hidden="true"></i>
+                  <i class="fa fa-tasks hidden-id" aria-hidden="true" style="display: none">${idMeal}</i>
+                </div>
                 <div class="card-footer-item" style="cursor: pointer">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
               </footer>
+              <div class="content-input-agenda-${idMeal} d-none"  style="border-top:solid 1px #1f2229">
+                <div class="card-content">
+                  <p class="my-5 is-size-4">
+                    Diet record
+                  </p>
+                  <div class="select mb-5" style="width: 100%">
+                    <select id="meal-type" class="meal-type" style="width: 100%">
+                      <option value="BREAKFAST">BREAKFAST</option>
+                      <option value="LUNCH">LUNCH</option>
+                      <option value="DINNER">DINNER</option>
+                      <option value="SNACK">SNACK</option>
+                    </select>
+                  </div>
+                  <input
+                    id="target-calorie"
+                    class="input mb-5 target-calorie"
+                    type="number"
+                    placeholder="Target Calorie"
+                  />
+                  <input
+                    class="meal-id d-none"
+                    value="${idMeal}"
+                  />
+                  <div class="buttons" style="width: 100%">
+                    <button id='submit-button' class="button is-primary submit-button" style="width: 100%">Submit</button>
+                  </div>
+                </div>
+              </div>
             </div>
           `);
           });
