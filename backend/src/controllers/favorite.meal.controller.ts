@@ -16,7 +16,7 @@ export const add = catchAsync(async ctx => {
     throw new ApiError(httpStatus.NOT_FOUND, { message: "Data not found" });
   }
 
-  const data = await create({ data: { meal_id: mealId, user_id: id, external_id: mealData?.external_id! } });
+  const data = await create({ data: { meal_id: mealData.id, user_id: id, external_id: mealData?.external_id! } });
   return ctx.json({ data });
 });
 
