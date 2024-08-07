@@ -6,7 +6,7 @@ export const fetchAll = catchAsync(async ctx => {
   const query = ctx.req.query() as unknown as FetchAllSchemaType;
   const datas = await service.fetchAll(query);
   const datasSize = await service.fetchDatabaseSize();
-  const totalPages = Math.ceil(datasSize/query.limit);
+  const totalPages = Math.ceil(datasSize/(query.limit ?? 10));
 
   return ctx.json({
     datas,

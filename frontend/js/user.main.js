@@ -1,3 +1,5 @@
+import apiService from "./api/apiService.js";
+
 const rowUserTemplate = (postion, username) => `
 <tr>
 <th>${postion}</th>
@@ -18,43 +20,84 @@ const rowUserTemplate = (postion, username) => `
 </tr>
 `;
 
-window.userOperationClick = (i, operation, el) => {
-  alert(`${i} ${operation}`);
+const toFormData = arr => {
+  const form = {};
+  for (const { value, name } of arr) Reflect.set(form, name, value);
+  return form;
+}
+
+const formListener = () => {
+  $("#form-user-create").on("submit", function(x) {
+    const data = toFormData($(this).serializeArray());
+    data.phone = "62" + data.phone;
+    x.preventDefault();
+    $(this).find("button").addClass("is-loading");
+    apiService
+      .post("api/users", data)
+      .done(() => {
+        window.location.replace("/users.html");
+      })
+      .fail(() => {
+        $(this).find("button").removeClass("is-loading");
+        alert("User Creation Fail");
+      })
+  });
+
+  $("#form-user-update").on("submit", function(x) {
+    const data = toFormData($(this).serializeArray());
+    data.phone = "62" + data.phone;
+    if (!data.password) delete data.password;
+    x.preventDefault();
+    $(this).find("button").addClass("is-loading");
+    apiService
+      .post("api/users", data)
+      .done(() => {
+        window.location.replace("/users.html");
+      })
+      .fail(() => {
+        $(this).find("button").removeClass("is-loading");
+        alert("User Updatetion Fail");
+      })
+  })
+}
+
+const updateUser = data => {
+  console.log(data);
+  $("#modal-user-update").addClass("is-active");
+  $("#modal-user-update")
+    .find(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button")
+    .on("click", () => $("#modal-user-update").removeClass("is-active"));
+  $("#form-user-update").find("input").each(function(i) {
+    const _$_ = $(this);
+    const field = _$_.attr("name");
+    let value = data[field];
+    if (field === "admin") {
+      _$_.prop("checked", true);
+      return;
+    }
+    if (field === "password") return;
+    if (field === "phone" && value) value = `${value}`.slice(2);
+    return _$_.attr("value", value); 
+  })
 }
 
 const createUser = function () {
   $("#create-user-button").on("click", function() {
-    alert("create");
+    $("#modal-user-create").addClass("is-active");
+    $("#modal-user-create")
+      .find(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button")
+      .on("click", () => $("#modal-user-create").removeClass("is-active"));
   });
 }
 
 const fetchUser = () => {
-  const users = [
-    "Raihanard",
-    "BlueNeon",
-    "Adz",
-    "Someone",
-    "Raihanard",
-    "Raihanard",
-    "Raihanard",
-    "Raihanard",
-    "BlueNeon",
-    "Adz",
-    "Someone",
-    "BlueNeon",
-    "Adz",
-    "Someone",
-    "BlueNeon",
-    "Adz",
-    "Someone",
-    "BlueNeon",
-    "Adz",
-    "Someone",
-  ];
-  return users;
+  return new Promise(resolve => {
+    apiService.get("api/users").done(response => resolve(response));
+  });
 }
 
 const pagination = (maxPage) => {
+  if (maxPage === 1) return $("nav.pagination").slideUp();
   let currentPage = 1;
   const click = (page) => {
     $("#page-user-list > li > button").each(function () { $(this).addClass("is-loading")});
@@ -88,8 +131,21 @@ const pagination = (maxPage) => {
   });
 }
 
-export const whenLoaded = () => {
+export const whenLoaded = async () => {
+  if (window.location.pathname !== "/users.html") return;
   createUser();
-  fetchUser().forEach((x, i) => $("#table-user-body").append($(rowUserTemplate(i+1, x))));
-  pagination(20);
+  const users = await fetchUser();
+  console.log(users);
+  users.datas.forEach((x, i) => {
+    const row = $(rowUserTemplate(i+1, x.username));
+    $("#table-user-body").append(row);
+  });
+  pagination(users.totalPages);
+  window.userOperationClick = (i, operation, el) => {
+    switch (operation) {
+      case 'update': return updateUser(users.datas[i-1]);
+      default: return;
+    }
+  }
+  formListener();
 }

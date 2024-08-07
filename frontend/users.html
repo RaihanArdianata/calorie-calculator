@@ -8,7 +8,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script type="module" src="js/main.js"></script>
 </head>
-  <body style="max-width:480px !important;" class="mx-auto">
+  <body style="max-width:480px !important; height:100vh" class="mx-auto">
     <header class="p-2 is-flex is-flex-direction-column">
       <div
         class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
@@ -56,7 +56,7 @@
           </ul>
       </div>
     </main>
-    <footer style="position: sticky; bottom:0">
+    <footer style="position: sticky; bottom:0; margin-top: auto;">
       <nav class="oh-my-navbar ">
         <a class="item" href="/">
           <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-home"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
@@ -76,9 +76,276 @@
         </a>
       </nav>
     </footer>
-    <div id="modal-user-create"></div>
+    <div id="modal-user-create" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="form-user-create">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Name</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-grouped">
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="First Name" class="input" name="first_name" required> 
+                  </p>
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="Second Name" class="input" name="last_name" required> 
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Username</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="text" placeholder="e.g user_name" class="input" name="username" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Phone number</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-expanded">
+                  <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">
+                        +62
+                      </a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input class="input" type="tel" placeholder="e.g 825xxxxxx" name="phone" required>
+                    </p>
+                  </div>
+                  <p class="help">Do not enter the first zero</p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Email</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="email" placeholder="e.g. email@example.com" class="input" name="email" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z" />
+                          <path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Password</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="password" placeholder="secret" class="input" name="password" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z" />
+                          <path d="M15 9h.01" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label"></div>
+              <div class="field-body">
+                <div class="field is-narrow">
+                  <div class="control">
+                    <label for="#" class="checkbox">
+                      <input type="checkbox" name="admin" value="true">
+                      Create user as admin ?
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label"></div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control is-expanded">
+                    <button class="button is-success">Create</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
     <div id="modal-user-read"></div>
-    <div id="modal-user-update"></div>
+    <div id="modal-user-update" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Modal title</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form id="form-user-update">
+            <input type="hidden" name="id">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Name</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-grouped">
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="First Name" class="input" name="first_name" required> 
+                  </p>
+                  <p class="control is-expanded">
+                    <input type="text" placeholder="Second Name" class="input" name="last_name" required> 
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Username</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="text" placeholder="e.g user_name" class="input" name="username" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                          <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Phone number</label>
+              </div>
+              <div class="field-body">
+                <div class="field is-expanded">
+                  <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">
+                        +62
+                      </a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input class="input" type="tel" placeholder="e.g 825xxxxxx" name="phone" required>
+                    </p>
+                  </div>
+                  <p class="help">Do not enter the first zero</p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Email</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="email" placeholder="e.g. email@example.com" class="input" name="email" required>
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z" />
+                          <path d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label for="#" class="label field-label">Password</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <p class="control is-expanded has-icons-left">
+                    <input type="password" placeholder="secret" class="input" name="password">
+                    <span class="icon is-small is-left"
+                      <i>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="-9 -9 40 40" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-mail">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path d="M16.555 3.843l3.602 3.602a2.877 2.877 0 0 1 0 4.069l-2.643 2.643a2.877 2.877 0 0 1 -4.069 0l-.301 -.301l-6.558 6.558a2 2 0 0 1 -1.239 .578l-.175 .008h-1.172a1 1 0 0 1 -.993 -.883l-.007 -.117v-1.172a2 2 0 0 1 .467 -1.284l.119 -.13l.414 -.414h2v-2h2v-2l2.144 -2.144l-.301 -.301a2.877 2.877 0 0 1 0 -4.069l2.643 -2.643a2.877 2.877 0 0 1 4.069 0z" />
+                          <path d="M15 9h.01" />
+                        </svg>
+                      </i>
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label"></div>
+              <div class="field-body">
+                <div class="field is-narrow">
+                  <div class="control">
+                    <label for="#" class="checkbox">
+                      <input type="checkbox" name="admin" value="true">
+                      is user an admin ?
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="field is-horizontal">
+              <div class="field-label"></div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control is-expanded">
+                    <button class="button is-success">update</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
     <div id="modal-user-delete"></div>
     <div id="modal-container"></div>
     <style>
