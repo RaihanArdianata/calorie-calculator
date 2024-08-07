@@ -6,119 +6,42 @@ import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 import { createManyTrIngredients, find } from "../services/trIngredients.service";
 import { createManyMeals, findMeal, findUser } from "../services/meals.service";
 import * as httpStatus from "http-status";
+import { fetchAndCreateIngredients, fetchAndCreateMeal } from "../utils/externalApi";
 
-export const getMealIngeredientsByMealId = catchAsync(async (c) => {
+export const getMealIngredientsByMealId = catchAsync(async (c) => {
   const mealId = c.req.param('mealId');
-  const meal = await findMeal({ id: mealId });
+  let meal = await findMeal({ id: mealId });
 
   if (_.isEmpty(meal)) {
-    const response = await fetch(`${process.env["MEAL_DB_API"]}/lookup.php?i=${mealId}`);
+    const { meals, insertedData } = await fetchAndCreateMeal(mealId);
 
-    if (!response.ok) {
-      throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from MEAL_DB_API" });
-    }
-    const { meals }: any = await response.json();
-
-    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal, name: item?.strMeal, area: item?.strArea })) });
-
-    // get ingridients
     const { ingredientsNames } = ingredientsExtractor(meals[0]);
-
-    const ingredients = await findIngredientByNames({ names: ingredientsNames });
-
-    // filter ingredients 
-    const ingeredientsData = _.filter(ingredientsNames, (name) => !_.some(ingredients, { name: name?.replace(/,|-/g, " ") }));
-
-
-    if (!_.isEmpty(ingeredientsData)) {
-
-      const joinedIngredientsName = ingeredientsData.join(",").replace(/,|-/g, " ");
-
-      const responseCalorie = await fetch(`${process.env["CALORIE_NINJA_API"]}/nutrition?query=${joinedIngredientsName}`, {
-        method: 'GET',
-        headers: {
-          'X-Api-Key': process.env["CALORIE_NINJA_API_KEY"] || ""
-        }
-      });
-
-      if (!responseCalorie.ok) {
-        throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from CALORIE NINJA" });
-      }
-      const { items }: any = await responseCalorie.json();
-
-      const result = await createManyIngredient({ data: items });
-      const meal_Id = _.find(mealsData, (item) => item.external_id === mealId)?.id;
-      const combinedIngredients = _.concat(ingredients, result);
-
-      if (meal_Id) {
-        await createManyTrIngredients({ data: _.map(combinedIngredients, (item) => ({ calorie_id: item.id, meal_id: meal_Id, measure: "" })) });
-      }
-    }
-    const ingredientsData = await findIngredientByNames({ names: ingredientsNames });
+    const ingredientsData = await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
 
     return c.json({ data: ingredientsData });
-
   }
 
-  const resMeal = await findMeal({ id: mealId });
-  const ingredients = await find({ mealId: resMeal?.id! });
-
+  const ingredients = await find({ mealId: meal?.id });
   return c.json({ data: ingredients });
+
 });
+
 
 export const findMealByExternalId = catchAsync(async (c) => {
   const externalId = c.req.param('externalId');
-  const meal = await findMeal({ id: externalId, external_id: externalId });
-
+  let meal = await findMeal({ id: externalId, external_id: externalId });
 
   if (_.isEmpty(meal)) {
-    const response = await fetch(`${process.env["MEAL_DB_API"]}/lookup.php?i=${externalId}`);
+    const { meals, insertedData } = await fetchAndCreateMeal(externalId);
 
-    if (!response.ok) {
-      throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from MEAL_DB_API" });
-    }
-    const { meals }: any = await response.json();
-
-    const mealsData = await createManyMeals({ data: _.map(meals, (item) => ({ external_id: item?.idMeal, name: item?.strMeal, area: item?.strArea })) });
-
-    // get ingridients
     const { ingredientsNames } = ingredientsExtractor(meals[0]);
+    await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
 
-    const ingredients = await findIngredientByNames({ names: ingredientsNames });
+    meal = await findMeal({ id: externalId, external_id: externalId });
 
-    // filter ingredients 
-    const ingeredientsData = _.filter(ingredientsNames, (name) => !_.some(ingredients, { name: name?.replace(/,|-/g, " ") }));
-
-
-    if (!_.isEmpty(ingeredientsData)) {
-
-      const joinedIngredientsName = ingeredientsData.join(",").replace(/,|-/g, " ");
-
-      const responseCalorie = await fetch(`${process.env["CALORIE_NINJA_API"]}/nutrition?query=${joinedIngredientsName}`, {
-        method: 'GET',
-        headers: {
-          'X-Api-Key': process.env["CALORIE_NINJA_API_KEY"] || ""
-        }
-      });
-
-      if (!responseCalorie.ok) {
-        throw new ApiError(httpStatus.SERVICE_UNAVAILABLE, { message: "Failed to fetch data from CALORIE NINJA" });
-      }
-      const { items }: any = await responseCalorie.json();
-
-      const result = await createManyIngredient({ data: items });
-      const mealId = _.find(mealsData, (item) => item.external_id === externalId)?.id;
-      const combinedIngredients = _.concat(ingredients, result);
-
-      if (mealId) {
-        await createManyTrIngredients({ data: _.map(combinedIngredients, (item) => ({ calorie_id: item.id, meal_id: mealId, measure: "" })) });
-      }
-    }
-    const mealNew = await findMeal({ id: externalId, external_id: externalId });
-
-    return c.json({ data: mealNew });
-
+    return c.json({ data: meal });
   }
+
   return c.json({ data: meal });
 });
 

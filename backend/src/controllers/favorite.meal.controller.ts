@@ -4,7 +4,8 @@ import { findMeal } from "../services/meals.service";
 import ApiError from "../utils/ApiError";
 import { catchAsync } from "../utils/catchAsync";
 import * as _ from 'lodash';
-import { fetchExternalApi } from "../utils/externalApi";
+import { fetchAndCreateIngredients, fetchAndCreateMeal } from "../utils/externalApi";
+import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 
 
 export const add = catchAsync(async ctx => {
@@ -14,7 +15,10 @@ export const add = catchAsync(async ctx => {
   let mealData = await findMeal({ id: mealId });
 
   if (_.isEmpty(mealData)) {
-    await fetchExternalApi({ mealId: mealId });
+    const { meals, insertedData } = await fetchAndCreateMeal(mealId);
+
+    const { ingredientsNames } = ingredientsExtractor(meals[0]);
+    const ingredientsData = await fetchAndCreateIngredients(ingredientsNames, insertedData?.[0].id);
 
     mealData = await findMeal({ id: mealId });
   }
