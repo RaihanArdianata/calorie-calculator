@@ -8,6 +8,43 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" src="js/main.js"></script>
+    <style>
+        .is-hidden {
+            display: none;
+        }
+
+        .loader-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+        }
+
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -21,19 +58,21 @@
                     <div class="columns is-centered">
                         <div class="column is-half">
                             <div class="box">
-                                <h1 class="title has-text-centered">Login</h1>
+                                <h1 class="title has-text-centered" id="form-title">Login</h1>
+
+                                <!-- Login Form -->
                                 <form id="login-form">
                                     <div class="field">
-                                        <label class="label" for="username">Email or Phone</label>
+                                        <label class="label" for="login-username">Email or Phone</label>
                                         <div class="control">
-                                            <input class="input" type="text" id="username" name="username"
+                                            <input class="input" type="text" id="login-username" name="username"
                                                 placeholder="Enter your email or phone" required>
                                         </div>
                                     </div>
                                     <div class="field">
-                                        <label class="label" for="password">Password</label>
+                                        <label class="label" for="login-password">Password</label>
                                         <div class="control">
-                                            <input class="input" type="password" id="password" name="password"
+                                            <input class="input" type="password" id="login-password" name="password"
                                                 placeholder="Enter your password" required>
                                         </div>
                                     </div>
@@ -42,13 +81,76 @@
                                             <button class="button is-primary" type="submit">Login</button>
                                         </div>
                                     </div>
+                                    <p class="has-text-centered">
+                                        Don't have an account? <a href="" id="show-register">Register</a>
+                                    </p>
                                 </form>
+
+                                <!-- Register Form -->
+                                <form id="register-form" class="is-hidden">
+                                    <div class="field">
+                                        <label class="label" for="register-email">Email</label>
+                                        <div class="control">
+                                            <input class="input" type="email" id="register-email" name="email"
+                                                placeholder="Enter your email" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="register-firstname">First Name</label>
+                                        <div class="control">
+                                            <input class="input" type="text" id="register-firstname" name="firstname"
+                                                placeholder="Enter your first name" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="register-lastname">Last Name</label>
+                                        <div class="control">
+                                            <input class="input" type="text" id="register-lastname" name="lastname"
+                                                placeholder="Enter your last name" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="register-phone">Phone Number</label>
+                                        <div class="control">
+                                            <input class="input" type="text" id="register-phone" name="phone"
+                                                placeholder="Enter your phone number" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="register-password">Password</label>
+                                        <div class="control">
+                                            <input class="input" type="password" id="register-password" name="password"
+                                                placeholder="Enter your password" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label" for="register-confirm-password">Confirm Password</label>
+                                        <div class="control">
+                                            <input class="input" type="password" id="register-confirm-password"
+                                                name="confirm-password" placeholder="Confirm your password" required>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button is-primary" type="submit">Register</button>
+                                        </div>
+                                    </div>
+                                    <p class="has-text-centered">
+                                        Already have an account? <a href="" id="show-login">Login</a>
+                                    </p>
+                                </form>
+
                                 <div id="message" class="notification is-hidden"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Loader -->
+        <section class="loader-wrapper is-hidden" id="loader-wrapper">
+            <div class="loader"></div>
         </section>
     </main>
     <footer></footer>

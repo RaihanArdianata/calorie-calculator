@@ -46,15 +46,12 @@ $(document).ready(() => {
                   class="is-flex is-flex-direction-Rrow is-justify-content-space-between is-align-items-center"
                   style="text-align: right">
                   <p class="">calories</p>
-                  <p class="" id="t-card">${
-                    agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
-                  } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
+                  <p class="" id="t-card">${agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+        } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
                 </div>
-                <progress class="progress is-small is-primary" value="${
-                  agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
-                }" max="${
-        agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
-      }">15%</progress>
+                <progress class="progress is-small is-primary" value="${agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+        }" max="${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
+        }">15%</progress>
               </div>
             </div>
             <footer class="card-footer" id="btn-view-${item}">
