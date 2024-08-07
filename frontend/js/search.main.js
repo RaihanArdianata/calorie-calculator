@@ -44,7 +44,7 @@ $(document).ready(() => {
         if (Array.isArray(meals)) {
           meals.forEach(({ strMeal, strInstructions }) => {
             mealsContainer.append(`
-            <div class="card">
+            <div id="accordion" class="card shadow-none">
               <header class="card-header">
                 <p class="card-header-title">${strMeal || '-'}</p>
                 <button class="card-header-icon" aria-label="more options">

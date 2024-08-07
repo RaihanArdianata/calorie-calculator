@@ -79,3 +79,14 @@ div #content-accordion {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.highlight {
+  background-color: var(--hl-gray-09);
+}
+
+#accordion {
+  box-shadow: unset;
+}
+.shadow-none {
+  box-shadow: unset;
+}
