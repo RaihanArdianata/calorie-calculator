@@ -1,5 +1,5 @@
 import httpStatus = require("http-status");
-import { create, remove } from "../services/favorite.meals.service";
+import { create, find, remove } from "../services/favorite.meals.service";
 import { findMeal } from "../services/meals.service";
 import ApiError from "../utils/ApiError";
 import { catchAsync } from "../utils/catchAsync";
@@ -14,6 +14,12 @@ export const add = catchAsync(async ctx => {
 
   if (!mealData?.id) {
     throw new ApiError(httpStatus.NOT_FOUND, { message: "Data not found" });
+  }
+  const favMealData = await find({ id: mealData.id, external_id: mealData.external_id, user_id: id });
+
+  if (!_.isEmpty(favMealData)) {
+    throw new ApiError(httpStatus.CONFLICT, { message: "Duplicate data" });
+
   }
 
   const data = await create({ data: { meal_id: mealData.id, user_id: id, external_id: mealData?.external_id! } });
