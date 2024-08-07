@@ -20,6 +20,8 @@ const rowUserTemplate = (postion, username) => `
 </tr>
 `;
 
+let currentPage = 1;
+
 const toFormData = arr => {
   const form = {};
   for (const { value, name } of arr) Reflect.set(form, name, value);
@@ -35,7 +37,13 @@ const formListener = () => {
     apiService
       .post("api/users", data)
       .done(() => {
-        window.location.replace("/users.html");
+        $(this).find("button").removeClass("is-loading");
+        $("#form-user-create").find("input").each(function() {
+          const scope = $(this);
+          if (scope.attr("name") === "admin") return scope.prop("checked", false);
+          return scope.val("");
+        });
+        window.pageClick(currentPage);
       })
       .fail(() => {
         $(this).find("button").removeClass("is-loading");
@@ -52,17 +60,16 @@ const formListener = () => {
     apiService
       .post("api/users", data)
       .done(() => {
-        window.location.replace("/users.html");
+        $(this).find("button").removeClass("is-loading");
+        window.pageClick(currentPage);
       })
       .fail(() => {
-        $(this).find("button").removeClass("is-loading");
         alert("User Updatetion Fail");
       })
   })
 }
 
 const updateUser = data => {
-  console.log(data);
   $("#modal-user-update").addClass("is-active");
   $("#modal-user-update")
     .find(".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button")
@@ -72,7 +79,8 @@ const updateUser = data => {
     const field = _$_.attr("name");
     let value = data[field];
     if (field === "admin") {
-      _$_.prop("checked", true);
+      value = data.roles.name === "ADMINISTRATOR"
+      _$_.prop("checked", value);
       return;
     }
     if (field === "password") return;
@@ -90,24 +98,37 @@ const createUser = function () {
   });
 }
 
-const fetchUser = () => {
+const deleteUser = (data, el) => {
+  const scope = $(el);
+  scope.replaceWith($("<button class=\"button is-loading\"></button>"));
+  apiService.delete("api/users", { id: data.id })
+    .done(() => window.pageClick(currentPage))
+    .fail(() => {
+      alert("Delete User failed");
+      scope.replaceWith($(el));
+    });
+}
+
+const fetchUser = (page = 1) => {
   return new Promise(resolve => {
-    apiService.get("api/users").done(response => resolve(response));
+    apiService
+      .get(`api/users?page=${page}&limit=15`)
+      .done(response => resolve(response))
+      .fail(() => window.location.replace("/"));
   });
 }
 
 const pagination = (maxPage) => {
   if (maxPage === 1) return $("nav.pagination").slideUp();
-  let currentPage = 1;
   const click = (page) => {
     $("#page-user-list > li > button").each(function () { $(this).addClass("is-loading")});
     $("#page-user-prev").text(page < 2 ? maxPage : page-1);
     $("#page-user-current").text(page);
     $("#page-user-next").text(page > maxPage-1 ? 1 : page+1);
     currentPage = page;
-    setTimeout(() => {
-      $("#page-user-list > li > button").each(function () { $(this).removeClass("is-loading")});
-    }, 1_000);
+    window.pageClick(currentPage).then(_ =>
+      $("#page-user-list > li > button").each(function () { $(this).removeClass("is-loading")})
+    );
   }
   click(currentPage);
   $("#page-user-list > li > button").each(function () { $(this).removeClass("is-loading")});
@@ -134,16 +155,23 @@ const pagination = (maxPage) => {
 export const whenLoaded = async () => {
   if (window.location.pathname !== "/users.html") return;
   createUser();
-  const users = await fetchUser();
-  console.log(users);
-  users.datas.forEach((x, i) => {
-    const row = $(rowUserTemplate(i+1, x.username));
-    $("#table-user-body").append(row);
-  });
-  pagination(users.totalPages);
+  let users = null;
+  window.pageClick = async num => {
+    $("#modal-user-create").removeClass("is-active");
+    $("#modal-user-update").removeClass("is-active");
+    $("#table-user-body").html("");
+    users = await fetchUser(num);
+    users.datas.forEach((x, i) => {
+      const row = $(rowUserTemplate(i+1, x.username));
+      $("#table-user-body").append(row);
+    });
+  }
+  await window.pageClick(currentPage);
+  pagination(users.totalPages)
   window.userOperationClick = (i, operation, el) => {
     switch (operation) {
       case 'update': return updateUser(users.datas[i-1]);
+      case 'delete': return deleteUser(users.datas[i-1], el);
       default: return;
     }
   }

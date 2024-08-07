@@ -28,8 +28,8 @@ const apiService = {
     return apiService.fetchData(endpoint, 'PATCH', data);
   },
 
-  delete: (endpoint) => {
-    return apiService.fetchData(endpoint, 'DELETE');
+  delete: (endpoint, data) => {
+    return apiService.fetchData(endpoint, 'DELETE', data);
   },
 };
 

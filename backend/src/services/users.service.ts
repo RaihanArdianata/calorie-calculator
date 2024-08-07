@@ -12,6 +12,13 @@ export const fetchAll = async ({ page, limit }: FetchAllSchemaType) => {
   return prisma.users.findMany({
     skip,
     take: limit,
+    include: {
+      roles: {
+        select: {
+          name: true
+        }
+      }
+    }
   });
 }
 
@@ -20,7 +27,6 @@ export const fetchDatabaseSize = async() => prisma.users.count();
 export const create = async (data: CreateSchemaType) => {
   const role = await prisma.roles.findFirst({ where: { name: data.admin === "true" ? "ADMINISTRATOR" : "USER" }});
   delete data.admin;
-  console.log(data);
   if (!data.id && (
     !data.email || !data.first_name ||
     !data.last_name || !data.password ||
@@ -49,7 +55,7 @@ export const create = async (data: CreateSchemaType) => {
 }
 
 export const removes = async ({ id }: DeleteSchemaType) => 
-  prisma.users.deleteMany({ where: { id: id } });
+  prisma.users.delete({ where: { id: id } });
 
 export const favMeals = async (id: string) =>
   prisma.favorite_meals.findMany({ where: { user_id: id }});

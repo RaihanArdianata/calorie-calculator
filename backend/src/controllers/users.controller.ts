@@ -25,6 +25,7 @@ export const create = catchAsync(async ctx => {
 
 export const removes = catchAsync(async ctx => {
   const body = await ctx.req.parseBody() as unknown as DeleteSchemaType;
+  console.log(body);
   await service.removes(body);
 
   return ctx.json({});
