@@ -3,10 +3,12 @@ import { keyToken, keyRole } from './constant/constant.js';
 import { modalOnClick } from './search-modal.js';
 import * as user from './user.main.js';
 import * as meals from './meals.main.js';
+import * as profile from './profile.main.js';
 
 $(document).ready(() => {
     user.whenLoaded();
     meals.whenLoaded();
+    profile.whenLoaded();
     $("a#search-meals").on("click", modalOnClick);
 
     const showLoader = () => {
