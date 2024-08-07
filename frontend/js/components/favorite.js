@@ -4,7 +4,7 @@ $(document).on('click', '.btn-add-favorite', function () {
   const meal_id = $(this).find('.hidden-id').text().trim();
 
   apiService
-    .get(`api/meals/${mealId}`)
+    .get(`api/meals/${meal_id}`)
     .done((response) => {
       apiService
         .post(`api/meals/${meal_id}/favorite`)
