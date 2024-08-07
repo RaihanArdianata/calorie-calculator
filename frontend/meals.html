@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calorie Calculator - Profile</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script type="module" src="js/main.js"></script>
-  <script type="module" src="js/navigation.js"></script>
-</head>
-  <body style="max-width:480px !important;" class="mx-auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calorie Calculator - Profile</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" src="js/meals.main.js"></script>
+    <script type="module" src="js/navigation.js"></script>
+  </head>
+  <body style="max-width: 480px !important" class="mx-auto">
     <header class="p-2 is-flex is-flex-direction-column">
       <div
         class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
@@ -19,16 +19,17 @@
         </figure>
       </div>
     </header>
-    <main class="p-5 is-flex is-flex-direction-column" style="min-height: calc(100vh - 128px); height: auto">
+    <main
+      class="p-5 is-flex is-flex-direction-column"
+      style="min-height: calc(100vh - 128px); height: auto">
       <div class="card">
         <div class="card-image">
           <figure class="image 128x128">
-            <img id="meal-image" src="">
+            <img id="meal-image" src="" />
           </figure>
         </div>
       </div>
-      <div class="content" id="meal-detail">
-      </div>
+      <div class="content" id="meal-detail"></div>
     </main>
     <footer
       style="position: sticky; bottom: 0; width: 480px; margin-inline: auto"
@@ -71,7 +72,7 @@
           </svg>
           <span>Search</span>
         </a>
-        <a id="menu-user" class="item" style="display: none;">
+        <a id="menu-user" class="item" style="display: none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -113,40 +114,44 @@
     </footer>
     <div class="modal" id="modal-calc"></div>
     <style>
-    @keyframes progressUp {
-      0% {
-        margin-bottom: -100%;  
+      @keyframes progressUp {
+        0% {
+          margin-bottom: -100%;
+        }
+        100% {
+          margin-bottom: 0;
+        }
       }
-      100% {
-        margin-bottom: 0;
-      }
-    }
-    .progress-box {
-      position: relative;
-      height: 9em;
-      margin-inline: auto;
-      display: flex;
-      align-items: flex-end;
-      border-radius: 10px;
-      overflow: hidden;
-      background-color: var(--bulma-border);
-      h3 {
-        color: white;
+      .progress-box {
+        position: relative;
+        height: 9em;
+        margin-inline: auto;
         display: flex;
-        width: fit-content;
-        height: fit-content;
-        font-weight: bolder;
-        position: absolute;
-        inset: 0;   
-        margin: auto;
+        align-items: flex-end;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: var(--bulma-border);
+        h3 {
+          color: white;
+          display: flex;
+          width: fit-content;
+          height: fit-content;
+          font-weight: bolder;
+          position: absolute;
+          inset: 0;
+          margin: auto;
+        }
       }
-    }
 
-    .progress-bar {
-      animation: progressUp 1s;
-      width: 100%;
-      background-color: hsl(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-l));
-    }
+      .progress-bar {
+        animation: progressUp 1s;
+        width: 100%;
+        background-color: hsl(
+          var(--bulma-primary-h),
+          var(--bulma-primary-s),
+          var(--bulma-primary-l)
+        );
+      }
     </style>
   </body>
 </html>

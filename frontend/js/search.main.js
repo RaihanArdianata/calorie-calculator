@@ -73,7 +73,9 @@ $(document).ready(() => {
                   <i class="fa fa-tasks hidden-id" aria-hidden="true" style="display: none">${idMeal}</i>
                 </div>
                 <div class="card-footer-item" style="cursor: pointer">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                <a href="/meals.html?id=${idMeal}">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
                 </div>
               </footer>
               <div class="content-input-agenda-${idMeal} d-none"  style="border-top:solid 1px #1f2229">
