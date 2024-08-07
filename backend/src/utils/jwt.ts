@@ -11,7 +11,7 @@ export const generateToken = async ({ email, national_id, id }: tokenParams) => 
     id: id,
     email: email,
     national_id: national_id,
-    exp: Math.floor(Date.now() / 1000) + 60 * 30, // Token expires in 30 minutes
+    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // Token expires in 30 minutes
   };
   const secret = process.env['JWT_SECRET'] || 'default';
   const token = await sign(payload, secret);
