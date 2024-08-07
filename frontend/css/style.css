@@ -67,3 +67,26 @@ div #content-accordion {
   border-bottom: 1px solid white;
   margin-bottom: 10px;
 }
+
+.max-w-screen-sm {
+  max-width: 480px !important;
+}
+
+.elipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.highlight {
+  background-color: var(--hl-gray-09);
+}
+
+#accordion {
+  box-shadow: unset;
+}
+.shadow-none {
+  box-shadow: unset;
+}
