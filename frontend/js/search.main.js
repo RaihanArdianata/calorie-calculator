@@ -1,4 +1,5 @@
 import externalApiService from './api/externalApiService.js';
+import { areaToISOCode } from './api/listArea.js';
 
 $(document).ready(() => {
   // state
@@ -42,14 +43,14 @@ $(document).ready(() => {
         mealsContainer.empty();
 
         if (Array.isArray(meals)) {
-          meals.forEach(({ strMeal, strInstructions }) => {
+          meals.forEach(({ strMeal, strInstructions, strArea, idMeal }) => {
             mealsContainer.append(`
             <div id="accordion" class="card shadow-none">
               <header class="card-header">
                 <p class="card-header-title">${strMeal || '-'}</p>
                 <button class="card-header-icon" aria-label="more options">
                   <span class="icon">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                   <span class="fi fi-${areaToISOCode[strArea || params]?.toLowerCase()}"></span>
                   </span>
                 </button>
               </header>
@@ -63,7 +64,13 @@ $(document).ready(() => {
                   : ``
               }
               <footer class="card-footer">
-                <a href="#" class="card-footer-item">View</a>
+                <div class="btn-add-favorite card-footer-item" style="cursor: pointer">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  <i class="fa fa-heart hidden-id" aria-hidden="true" style="display: none">${idMeal}</i>
+                </div>
+                <div class="card-footer-item" style="cursor: pointer">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </div>
               </footer>
             </div>
           `);
