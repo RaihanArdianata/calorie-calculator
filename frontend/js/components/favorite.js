@@ -2,11 +2,23 @@ import apiService from '../api/apiService.js';
 
 $(document).on('click', '.btn-add-favorite', function () {
   const meal_id = $(this).find('.hidden-id').text().trim();
-  console.log(meal_id);
+
   apiService
-    .post(`api/meals/${meal_id}/favorite`)
+    .get(`api/meals/${mealId}`)
     .done((response) => {
-      console.log(response);
+      apiService
+        .post(`api/meals/${meal_id}/favorite`)
+        .done((response) => {
+          console.log(response);
+        })
+        .fail((jqXHR, textStatus, errorThrown) => {
+          if (jqXHR.status === 401) {
+            location.replace('login.html');
+            alert('Unauthorized');
+          } else {
+            alert('Error Fetch', textStatus, errorThrown);
+          }
+        });
     })
     .fail((jqXHR, textStatus, errorThrown) => {
       if (jqXHR.status === 401) {
