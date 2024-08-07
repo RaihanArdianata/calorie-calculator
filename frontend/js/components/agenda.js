@@ -8,7 +8,7 @@ $(document).on('click', '.btn-add-agenda', function () {
 });
 
 $(document).on('click', '.submit-button', function () {
-  const $cardWrapper = $(this).closest('.card-content'); // Find the closest parent card-wrapper
+  const $cardWrapper = $(this).closest('.card-content');
   const mealType = $cardWrapper.find('.meal-type').val();
   const targetCalorie = $cardWrapper.find('.target-calorie').val();
   const mealId = $cardWrapper.find('.meal-id').val();
@@ -30,4 +30,8 @@ $(document).on('click', '.submit-button', function () {
         alert('Error Fetch', textStatus, errorThrown);
       }
     });
+});
+
+$(document).on('click', '.delete-button', function () {
+  console.log('deleted');
 });
