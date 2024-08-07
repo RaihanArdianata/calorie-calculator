@@ -14,7 +14,11 @@ $(document).on('click', '.submit-button', function () {
   const mealId = $cardWrapper.find('.meal-id').val();
 
   apiService
-    .post(`api/meals/${meal_id}/favorite`)
+    .post(`api/agenda`, {
+      agenda_name: mealType,
+      meal_id: mealId,
+      target_calorie: targetCalorie,
+    })
     .done((response) => {
       console.log(response);
     })
