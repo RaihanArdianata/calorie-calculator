@@ -4,9 +4,10 @@ import * as service from "../services/users.service";
 
 export const fetchAll = catchAsync(async ctx => {
   const query = ctx.req.query() as unknown as FetchAllSchemaType;
-  const datas = await service.fetchAll(query);
   const datasSize = await service.fetchDatabaseSize();
   const totalPages = Math.ceil(datasSize/(query.limit ?? 10));
+  const datas = await service.fetchAll(query, totalPages);
+  if (query.page > totalPages) query.page = totalPages;
 
   return ctx.json({
     datas,

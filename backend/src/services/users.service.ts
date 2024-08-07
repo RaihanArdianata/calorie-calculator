@@ -5,9 +5,10 @@ import { transformPhoneNumber } from "../utils/formater";
 import { bcryptHash } from "../utils/hashing";
 import { FetchAllSchemaType, CreateSchemaType, DeleteSchemaType } from "../utils/validator/users.validator";
 
-export const fetchAll = async ({ page, limit }: FetchAllSchemaType) => {
+export const fetchAll = async ({ page, limit }: FetchAllSchemaType, totalPages: number) => {
   page = isNaN(page) ? 1 : +page;
   limit = isNaN(limit) ? 10 : +limit;
+  if (page > totalPages) page = totalPages;
   const skip = (page - 1) * limit;
   return prisma.users.findMany({
     skip,
