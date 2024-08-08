@@ -4,7 +4,7 @@ import { keyRole } from "./constant/constant.js";
 
 const renderCard
 = (x, y) => 
-`<div class="cell" id="${x.idMeal}-${y.id}" style="display: none;">
+`<div class="column is-half" id="${x.idMeal}-${y.id}" style="display: none;">
   <div class="card">
     <div class="card-header">
       <p class="card-header-title">${x.strMeal}</p>
