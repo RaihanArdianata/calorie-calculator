@@ -177,9 +177,6 @@ $(document).ready(() => {
           toastr.error(`${errorMessage}`);
           if (jqXHR.status === 401) {
             location.replace('login.html');
-            alert('Unauthorized');
-          } else {
-            alert('Error Fetch', textStatus, errorThrown);
           }
         });
     });
@@ -304,9 +301,6 @@ $(document).ready(() => {
         hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
-          alert('Unauthorized');
-        } else {
-          alert('Error Fetch', textStatus, errorThrown);
         }
       });
   };
@@ -336,9 +330,6 @@ $(document).ready(() => {
         hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
-          alert('Unauthorized');
-        } else {
-          alert('Error Fetch', textStatus, errorThrown);
         }
       });
   };
@@ -381,9 +372,6 @@ $(document).ready(() => {
         hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
-          alert('Unauthorized');
-        } else {
-          alert('Error Fetch', textStatus, errorThrown);
         }
       });
   };

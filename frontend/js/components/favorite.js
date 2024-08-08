@@ -43,9 +43,6 @@ $(document).on('click', '.btn-add-favorite', function () {
           enableScroll();
           if (jqXHR.status === 401) {
             location.replace('login.html');
-            alert('Unauthorized');
-          } else {
-            alert('Error Fetch', textStatus, errorThrown);
           }
         });
     })
@@ -54,9 +51,6 @@ $(document).on('click', '.btn-add-favorite', function () {
       enableScroll();
       if (jqXHR.status === 401) {
         location.replace('login.html');
-        alert('Unauthorized');
-      } else {
-        alert('Error Fetch', textStatus, errorThrown);
       }
     });
 });
