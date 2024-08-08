@@ -26,5 +26,5 @@ export const totalPortions = ((numOfIngredients: number) => {
 
   const result = (numOfIngredients * DEFAULT_WIGHT) / DEFAULT_PORTION_WEIGHT;
 
-  return result;
+  return Math.round(result) >= 1 ? Math.round(result) : 1;
 });
