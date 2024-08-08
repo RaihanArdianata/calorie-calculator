@@ -10,7 +10,9 @@
     <script src="js/components/headers.js"></script>
     <script type="module" src="js/navigation.js"></script>
   </head>
-  <body style="max-width: 480px !important" class="mx-auto">
+  <body
+    style="max-width:480px !important; min-height: 100vh; height: auto; margin-inline: auto;"
+    class="is-flex is-flex-direction-column">
     <header class="p-2 is-flex is-flex-direction-column">
       <div
         class="is-flex is-flex-direction-row is-justify-content-space-between is-align-items-center">
@@ -23,7 +25,7 @@
         </figure>
       </div>
     </header>
-    <main class="p-5 is-flex is-flex-direction-column" style="min-height: calc(100vh - 128px); height: auto">
+    <main class="p-5 is-flex is-flex-direction-column" style="min-height: inherit; height: auto;">
       <div class="columns is-mobile">
         <div class="column is-narrow">
           <div class="card">
@@ -36,7 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="column is-align-items-center is-flex is-narrow">
+        <div class="column">
           <div class="content">
             <h3 class="title is-skeleton" id="profile-username">Username</h3>
             <p id="profile-name" class="is-skeleton"><strong>Firstname</strong> Secondname</p>
@@ -44,16 +46,22 @@
             </div>
           </div>
         </div>
-        <div class="column">
-          <button class="button" id="edit-profile">
-            <span class="icon is-small has-text-warning">
-              <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
-            </span>
-          </button>
-          <button class="button" id="logout">
-            <span class="icon is-small has-text-warning">
-              <svg fill="#ff0000" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M366.473,172.549c-8.552-9.598-23.262-10.44-32.858-1.888c-9.595,8.552-10.44,23.263-1.887,32.858 c16.556,18.576,25.676,42.527,25.676,67.443c-0.002,55.913-45.49,101.402-101.404,101.402s-101.402-45.489-101.402-101.402 c0-24.913,9.118-48.863,25.678-67.443c8.552-9.595,7.705-24.308-1.89-32.86c-9.596-8.552-24.306-7.705-32.858,1.89 c-24.166,27.116-37.474,62.065-37.474,98.413C108.052,352.54,174.421,418.909,256,418.909s147.948-66.369,147.948-147.948 C403.948,234.611,390.639,199.661,366.473,172.549z"></path> </g> </g> <g> <g> <path d="M256,93.091c-12.853,0-23.273,10.42-23.273,23.273v99.739c0,12.853,10.42,23.273,23.273,23.273 c12.853,0,23.273-10.42,23.273-23.273v-99.739C279.273,103.511,268.853,93.091,256,93.091z"></path> </g> </g> <g> <g> <path d="M256,0C114.842,0,0,114.842,0,256s114.842,256,256,256c141.16,0,256-114.842,256-256S397.16,0,256,0z M256,465.455 c-115.493,0-209.455-93.961-209.455-209.455S140.507,46.545,256,46.545S465.455,140.507,465.455,256S371.493,465.455,256,465.455z "></path> </g> </g> </g></svg>            </span>
-          </button>
+        <div class="column is-narrow">
+          <div class="columns is-multiline">
+            <div class="column is-full">
+              <button class="button" id="edit-profile">
+                <span class="icon is-small has-text-warning">
+                  <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" /><path d="M13.5 6.5l4 4" /></svg>
+                </span>
+              </button>
+            </div>
+            <div class="column is-full">
+              <button class="button" id="logout">
+                <span class="icon is-small has-text-warning">
+                  <svg fill="#ff0000" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M366.473,172.549c-8.552-9.598-23.262-10.44-32.858-1.888c-9.595,8.552-10.44,23.263-1.887,32.858 c16.556,18.576,25.676,42.527,25.676,67.443c-0.002,55.913-45.49,101.402-101.404,101.402s-101.402-45.489-101.402-101.402 c0-24.913,9.118-48.863,25.678-67.443c8.552-9.595,7.705-24.308-1.89-32.86c-9.596-8.552-24.306-7.705-32.858,1.89 c-24.166,27.116-37.474,62.065-37.474,98.413C108.052,352.54,174.421,418.909,256,418.909s147.948-66.369,147.948-147.948 C403.948,234.611,390.639,199.661,366.473,172.549z"></path> </g> </g> <g> <g> <path d="M256,93.091c-12.853,0-23.273,10.42-23.273,23.273v99.739c0,12.853,10.42,23.273,23.273,23.273 c12.853,0,23.273-10.42,23.273-23.273v-99.739C279.273,103.511,268.853,93.091,256,93.091z"></path> </g> </g> <g> <g> <path d="M256,0C114.842,0,0,114.842,0,256s114.842,256,256,256c141.16,0,256-114.842,256-256S397.16,0,256,0z M256,465.455 c-115.493,0-209.455-93.961-209.455-209.455S140.507,46.545,256,46.545S465.455,140.507,465.455,256S371.493,465.455,256,465.455z "></path> </g> </g> </g></svg>            </span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <span class="icon-text has-text-info has-text-weight-bold mb-5">
@@ -80,14 +88,14 @@
         </span>
         <span class="is-size-4">Favorite Meals</span>
       </span>
-      <div class="grid is-skeleton" id="fav-meals-list">
+      <div class="columns is-multiline is-skeleton" id="fav-meals-list">
         skekasldaslkjfsakjf
         asfkasfasjfjaskfj
         asdksajfjl
       </div>
     </main>
     <footer
-      style="position: sticky; bottom: 0; width: 480px; margin-inline: auto"
+      style="position: sticky; bottom: 0; width: 100%;"
       class="has-background-black-bis">
       <nav class="oh-my-navbar">
         <a id="menu-home" class="item current">
