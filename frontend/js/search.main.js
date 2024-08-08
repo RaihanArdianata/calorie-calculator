@@ -5,11 +5,36 @@ $(document).ready(() => {
   // state
   const mealsContainer = $('#meals');
   const categoriesContainer = $('#categories');
+  const disableScroll = () => {
+    $(window).on('scroll.disableScroll', function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.scrollTo(0, 0);
+    });
+  };
+
+  const enableScroll = () => {
+    $(window).off('scroll.disableScroll');
+  };
+
+  const showLoader = () => {
+    $('body, html').css('overflow', 'hidden');
+    $('#loader-wrapper').removeClass('is-hidden');
+    disableScroll();
+  };
+
+  const hideLoader = () => {
+    $('#loader-wrapper').addClass('is-hidden');
+    $('body, html').css('overflow', '');
+    enableScroll();
+  };
 
   const fetchCategories = () => {
+    showLoader();
     externalApiService
       .get(`list.php?a=list`)
       .done((response) => {
+        hideLoader();
         const { meals } = response;
         categoriesContainer.empty();
 
@@ -26,6 +51,7 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
           alert('Unauthorized');
@@ -36,9 +62,11 @@ $(document).ready(() => {
   };
 
   const searchMeals = (params, type = 's') => {
+    showLoader();
     externalApiService
       .get(`${type === 's' ? 'search' : 'filter'}.php?${type}=${params || 'a'}`)
       .done((response) => {
+        hideLoader();
         const { meals } = response;
         mealsContainer.empty();
 
@@ -112,6 +140,7 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
           alert('Unauthorized');

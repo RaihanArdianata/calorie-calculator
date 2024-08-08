@@ -13,6 +13,21 @@ $(document).on('click', '.submit-button', function () {
   const targetCalorie = $cardWrapper.find('.target-calorie').val();
   const mealId = $cardWrapper.find('.meal-id').val();
 
+  const disableScroll = () => {
+    $(window).on('scroll.disableScroll', function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.scrollTo(0, 0);
+    });
+  };
+
+  const enableScroll = () => {
+    $(window).off('scroll.disableScroll');
+  };
+
+  $('#loader-wrapper').removeClass('is-hidden');
+  disableScroll();
+
   apiService
     .get(`api/meals/${mealId}`)
     .done((response) => {
@@ -23,9 +38,13 @@ $(document).on('click', '.submit-button', function () {
           target_calorie: targetCalorie,
         })
         .done((response) => {
+          $('#loader-wrapper').addClass('is-hidden');
+          enableScroll();
           console.log(response);
         })
         .fail((jqXHR, textStatus, errorThrown) => {
+          $('#loader-wrapper').addClass('is-hidden');
+          enableScroll();
           if (jqXHR.status === 401) {
             location.replace('login.html');
             alert('Unauthorized');
@@ -35,6 +54,8 @@ $(document).on('click', '.submit-button', function () {
         });
     })
     .fail((jqXHR, textStatus, errorThrown) => {
+      $('#loader-wrapper').addClass('is-hidden');
+      enableScroll();
       if (jqXHR.status === 401) {
         location.replace('login.html');
         alert('Unauthorized');
