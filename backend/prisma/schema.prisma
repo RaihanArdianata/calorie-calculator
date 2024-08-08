@@ -103,12 +103,13 @@ model ingredients {
 }
 
 model meals {
-  id          String   @id @default(uuid())
-  external_id String   @unique
-  name        String?
-  area        String?
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id             String   @id @default(uuid())
+  external_id    String   @unique
+  name           String?
+  area           String?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  total_portions Int?     @default(0)
 
   tr_ingredients tr_ingredients[]
   favorite_meals favorite_meals[]

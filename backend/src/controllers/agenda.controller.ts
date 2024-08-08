@@ -8,6 +8,7 @@ import { fetchAndCreateIngredients, fetchAndCreateMeal } from "../utils/external
 import { ingredientsExtractor } from "../utils/ingredientsExtractor";
 import ApiError from "../utils/ApiError";
 import httpStatus = require("http-status");
+import { totalCalorie } from "../utils/formula";
 
 export const show = catchAsync(async ctx => {
   const { id } = ctx.get("jwtPayload");
@@ -28,18 +29,13 @@ export const find = catchAsync(async ctx => {
   const result = data.map((data) => {
     const { meal: { tr_ingredients } } = data;
 
-    let calorieTotal = 0;
+    let resultTotalCalorie = 0;
 
     if (_.isArray(tr_ingredients)) {
-      _.forEach(tr_ingredients, ({ ingredient }) => {
-
-        if (!_.isEmpty(ingredient)) {
-          calorieTotal += ingredient.calories;
-        }
-      });
+      resultTotalCalorie = totalCalorie({ data: tr_ingredients });
     }
 
-    return { ...data, total_calorie: calorieTotal };
+    return { ...data, total_calorie: resultTotalCalorie };
 
   });
   return ctx.json({ data: result });

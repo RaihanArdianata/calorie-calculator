@@ -1,11 +1,8 @@
-import { createManyIngredient, findIngredientByNames } from "../services/ingredients.service";
-import ApiError from "../utils/ApiError";
 import { catchAsync } from "../utils/catchAsync";
 import * as _ from "lodash";
 import { ingredientsExtractor } from "../utils/ingredientsExtractor";
-import { createManyTrIngredients, find } from "../services/trIngredients.service";
-import { createManyMeals, findMeal, findUser } from "../services/meals.service";
-import * as httpStatus from "http-status";
+import { find } from "../services/trIngredients.service";
+import { findMeal, findUser } from "../services/meals.service";
 import { fetchAndCreateIngredients, fetchAndCreateMeal } from "../utils/externalApi";
 
 export const getMealIngredientsByMealId = catchAsync(async (c) => {

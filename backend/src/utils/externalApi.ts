@@ -4,6 +4,8 @@ import { createManyMeals } from "../services/meals.service";
 import { createManyIngredient, findIngredientByNames } from "../services/ingredients.service";
 import * as _ from 'lodash';
 import { createManyTrIngredients } from "../services/trIngredients.service";
+import { totalPortions } from "./formula";
+import { ingredientsExtractor } from "./ingredientsExtractor";
 
 
 export const fetchAndCreateMeal = async (externalId: string) => {
@@ -15,11 +17,14 @@ export const fetchAndCreateMeal = async (externalId: string) => {
 
   const { meals }: any = await response.json();
 
+  const { ingredientsNames } = await ingredientsExtractor(meals[0]);
+
   const insertedData = await createManyMeals({
     data: _.map(meals, (item) => ({
       external_id: item?.idMeal,
       name: item?.strMeal,
       area: item?.strArea,
+      total_portions: totalPortions(_.isEmpty(ingredientsNames) ? 0 : ingredientsNames.length),
     })),
   });
 
