@@ -10,13 +10,14 @@ $(document).ready(() => {
     fat: 0,
     protein: 0,
     sugar: 0,
+    total_portions: 0,
   };
 
   let agendaData = {
-    breakfast: { total_calorie: 0, target_calorie: 0, data: [] },
-    lunch: { total_calorie: 0, target_calorie: 0, data: [] },
-    dinner: { total_calorie: 0, target_calorie: 0, data: [] },
-    snack: { total_calorie: 0, target_calorie: 0, data: [] },
+    breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+    lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+    dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+    snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
   };
 
   let groupAgendaData = {};
@@ -47,11 +48,17 @@ $(document).ready(() => {
                   style="text-align: right">
                   <p class="">calories</p>
                   <p class="" id="t-card">${
-                    agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                    (
+                      Math.floor(agendaData?.[item?.toLowerCase()]?.total_calorie || 0) /
+                        agendaData?.[item?.toLowerCase()]?.total_portions || 0
+                    )?.toFixed(0) || 0
                   } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
                 </div>
                 <progress class="progress is-small is-primary" value="${
-                  agendaData?.[item?.toLowerCase()]?.total_calorie.toFixed(0) || 0
+                  (
+                    Math.floor(agendaData?.[item?.toLowerCase()]?.total_calorie || 0) /
+                      agendaData?.[item?.toLowerCase()]?.total_portions || 0
+                  )?.toFixed(0) || 0
                 }" max="${
         agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0
       }">15%</progress>
@@ -69,6 +76,8 @@ $(document).ready(() => {
         `);
 
       groupAgendaData[item?.toLowerCase()]?.forEach((data) => {
+        console.log(data, ' -----data-----');
+
         $(`#list-${item?.toLowerCase()}`).append(`
             <div class="item-wrapper">
               <input id="${data?.id}" class="input-agenda-id" value="${
@@ -80,7 +89,9 @@ $(document).ready(() => {
                     <p>${data?.meal?.name}</p>
                     <span class="fi fi-${areaToISOCode[data?.meal?.area].toLowerCase()}"></span>
                   </div>
-                  <span class="tag is-primary">${data?.total_calorie?.toFixed(0)} Kcal</span>
+                  <span class="tag is-primary">${(
+                    data?.total_calorie / data?.meal?.total_portions
+                  ).toFixed(0)} Kcal</span>
                 </div>
                 <div class="is-flex is-flex-direction-row is-align-items-center" style="gap: 4px">
                   <button id="delete-agenda" class="delete delete-agenda" aria-label="close"></button>
@@ -103,8 +114,6 @@ $(document).ready(() => {
     //   $(this).find(`.content-${lowerCaseItem}`).slideToggle('slow');
     // });
     $('.delete-agenda').on('click', function async() {
-      console.log('masuk');
-
       const $agendaId = $(this).closest('.item-wrapper').find('.input-agenda-id');
       const id = $agendaId.val();
 
@@ -133,16 +142,17 @@ $(document).ready(() => {
 
     groupAgendaData = {};
     agendaData = {
-      breakfast: { total_calorie: 0, target_calorie: 0, data: [] },
-      lunch: { total_calorie: 0, target_calorie: 0, data: [] },
-      dinner: { total_calorie: 0, target_calorie: 0, data: [] },
-      snack: { total_calorie: 0, target_calorie: 0, data: [] },
+      breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+      lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+      dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+      snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
     };
     nutritionRecord = {
       calories: 0,
       fat: 0,
       protein: 0,
       sugar: 0,
+      total_portions: 0,
     };
 
     $('#p-calories').attr('value', nutritionRecord.calories);
@@ -167,7 +177,17 @@ $(document).ready(() => {
               target_calorie: target_calorie_db,
               agenda_name,
             } = item;
-            const { tr_ingredients } = meal;
+            const { tr_ingredients, total_portions: total_portions_db } = meal;
+
+            let tmpNutritionRecord = {
+              calories: 0,
+              fat: 0,
+              protein: 0,
+              sugar: 0,
+              total_portions: 0,
+            };
+
+            tmpNutritionRecord.total_portions += total_portions_db;
 
             if (groupAgendaData.hasOwnProperty(`${agenda_name?.toLowerCase()}`)) {
               groupAgendaData[`${agenda_name?.toLowerCase()}`].push(item);
@@ -177,23 +197,33 @@ $(document).ready(() => {
 
             if (Array.isArray(tr_ingredients)) {
               tr_ingredients.forEach(({ ingredient }) => {
-                nutritionRecord.calories += ingredient?.calories || 0;
-                nutritionRecord.fat += ingredient?.fat_total_g || 0;
-                nutritionRecord.protein += ingredient?.protein_g || 0;
-                nutritionRecord.sugar += ingredient?.sugar_g || 0;
+                tmpNutritionRecord.calories += ingredient?.calories || 0;
+                tmpNutritionRecord.fat += ingredient?.fat_total_g || 0;
+                tmpNutritionRecord.protein += ingredient?.protein_g || 0;
+                tmpNutritionRecord.sugar += ingredient?.sugar_g || 0;
               });
             }
 
             if (agendaData?.[agenda_name?.toLowerCase()]) {
-              const { total_calorie, target_calorie } = agendaData?.[agenda_name?.toLowerCase()];
+              const { total_calorie, target_calorie, total_portions } =
+                agendaData?.[agenda_name?.toLowerCase()];
+
               agendaData = {
                 ...agendaData,
                 [agenda_name?.toLowerCase()]: {
                   total_calorie: total_calorie + total_calorie_db,
                   target_calorie: target_calorie + target_calorie_db,
+                  total_portions: total_portions + total_portions_db,
                 },
               };
             }
+
+            nutritionRecord.calories +=
+              tmpNutritionRecord.calories / tmpNutritionRecord.total_portions;
+            nutritionRecord.fat += tmpNutritionRecord.fat / tmpNutritionRecord.total_portions;
+            nutritionRecord.protein +=
+              tmpNutritionRecord.protein / tmpNutritionRecord.total_portions;
+            nutritionRecord.sugar += tmpNutritionRecord.sugar / tmpNutritionRecord.total_portions;
           });
         }
 
