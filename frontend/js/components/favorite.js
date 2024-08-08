@@ -26,9 +26,19 @@ $(document).on('click', '.btn-add-favorite', function () {
         .done((response) => {
           $('#loader-wrapper').addClass('is-hidden');
           enableScroll();
-          console.log(response);
+          toastr.success('Success!');
         })
         .fail((jqXHR, textStatus, errorThrown) => {
+          const errors = jqXHR?.responseJSON?.details;
+          let errorMessage = '';
+
+          if (Array.isArray(errors)) {
+            errors.forEach((error) => {
+              errorMessage += '<br>' + error.message;
+            });
+          }
+          toastr.error(`${errorMessage}`);
+
           $('#loader-wrapper').addClass('is-hidden');
           enableScroll();
           if (jqXHR.status === 401) {

@@ -41,9 +41,20 @@ $(document).on('click', '.submit-button', function () {
           $('#loader-wrapper').addClass('is-hidden');
           enableScroll();
           console.log(response);
+          toastr.success(`Success`);
         })
         .fail((jqXHR, textStatus, errorThrown) => {
           $('#loader-wrapper').addClass('is-hidden');
+
+          const errors = jqXHR?.responseJSON?.details;
+          let errorMessage = '';
+
+          if (Array.isArray(errors)) {
+            errors.forEach((error) => {
+              errorMessage += '<br>' + error.message;
+            });
+          }
+          toastr.error(`${errorMessage}`);
           enableScroll();
           if (jqXHR.status === 401) {
             location.replace('login.html');
@@ -56,6 +67,15 @@ $(document).on('click', '.submit-button', function () {
     .fail((jqXHR, textStatus, errorThrown) => {
       $('#loader-wrapper').addClass('is-hidden');
       enableScroll();
+      const errors = jqXHR?.responseJSON?.details;
+      let errorMessage = '';
+
+      if (Array.isArray(errors)) {
+        errors.forEach((error) => {
+          errorMessage += '<br>' + error.message;
+        });
+      }
+      toastr.error(`${errorMessage}`);
       if (jqXHR.status === 401) {
         location.replace('login.html');
         alert('Unauthorized');

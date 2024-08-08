@@ -2,6 +2,22 @@ import externalApiService from './api/externalApiService.js';
 import { areaToISOCode } from './api/listArea.js';
 
 $(document).ready(() => {
+  toastr.options = {
+    closeButton: true,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: 'toast-bottom-right',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
+  };
   // state
   const mealsContainer = $('#meals');
   const categoriesContainer = $('#categories');
@@ -18,14 +34,12 @@ $(document).ready(() => {
   };
 
   const showLoader = () => {
-    $('body, html').css('overflow', 'hidden');
     $('#loader-wrapper').removeClass('is-hidden');
     disableScroll();
   };
 
   const hideLoader = () => {
     $('#loader-wrapper').addClass('is-hidden');
-    $('body, html').css('overflow', '');
     enableScroll();
   };
 

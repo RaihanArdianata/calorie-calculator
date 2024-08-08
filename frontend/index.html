@@ -19,12 +19,18 @@
     <script type="module" src="js/home.main.js"></script>
     <script type="module" src="js/navigation.js"></script>
     <script src="js/components/headers.js"></script>
+
+    <!-- toastr -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   </head>
 
   <body>
     <header>
       <nav
-        class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between p-5 is-align-items-center has-background-black-ter">
+        class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between px-5 pt-5 is-align-items-center has-background-black-ter">
         <p class="is-size-5">Calorie Tracker</p>
         <figure class="image is-48x48">
           <img
@@ -35,9 +41,25 @@
       </nav>
     </header>
     <main
-      class="mx-auto max-w-screen-sm p-5 tw-bg-gray-500 has-background-black-ter"
-      style="min-height: calc(100vh - 64px)">
-      <div class="mb-5">
+      class="mx-auto max-w-screen-sm tw-bg-gray-500 has-background-black-ter"
+      style="min-height: calc(100vh - 64px); position: relative">
+      <section
+        class="loader-wrapper"
+        id="loader-wrapper"
+        style="
+          height: calc(100vh - 135px);
+          width: 100%;
+          overflow: hidden;
+          position: absolute;
+          z-index: 99;
+          background: #000;
+          opacity: 0.7;
+        ">
+        <div class="is-flex is-justify-content-center is-align-items-center" style="height: 100%">
+          <div class="loader"></div>
+        </div>
+      </section>
+      <div class="pb-5 pt-5 px-5">
         <p class="is-size-3">Hi, what are you going to eat today?</p>
         <div class="is-flex is-flex-direction-row is-justify-content-space-between my-5">
           <div class="cs-progress-container">
@@ -100,8 +122,8 @@
         <p style="text-align: center"></p>
       </div>
       <!-- agenda -->
-      <div class="my-5">
-        <p class="is-size-6 my-5">Diet Record Today</p>
+      <div class="pb-5 px-5">
+        <p class="is-size-6 mb-5">Diet Record Today</p>
         <div id="agenda" class="" style="text-transform: capitalize">
           <!-- agenda card render here -->
         </div>
@@ -148,7 +170,7 @@
           </svg>
           <span>Search</span>
         </a>
-        <a id="menu-user" class="item" style="display: none;">
+        <a id="menu-user" class="item" style="display: none">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
