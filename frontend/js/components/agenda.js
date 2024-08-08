@@ -58,9 +58,6 @@ $(document).on('click', '.submit-button', function () {
           enableScroll();
           if (jqXHR.status === 401) {
             location.replace('login.html');
-            alert('Unauthorized');
-          } else {
-            alert('Error Fetch', textStatus, errorThrown);
           }
         });
     })
@@ -78,9 +75,6 @@ $(document).on('click', '.submit-button', function () {
       toastr.error(`${errorMessage}`);
       if (jqXHR.status === 401) {
         location.replace('login.html');
-        alert('Unauthorized');
-      } else {
-        alert('Error Fetch', textStatus, errorThrown);
       }
     });
 
