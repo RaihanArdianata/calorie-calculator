@@ -27,7 +27,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   </head>
 
-  <body>
+  <body
+    style="max-width: 480px !important; min-height: 100vh; height: auto; margin-inline: auto"
+    class="is-flex is-flex-direction-column">
     <header>
       <nav
         class="mx-auto max-w-screen-sm is-flex is-flex-direction-row is-justify-content-space-between px-5 pt-5 is-align-items-center has-background-black-ter">
@@ -62,7 +64,7 @@
       <div class="pb-5 pt-5 px-5">
         <p class="is-size-3">Hi, what are you going to eat today?</p>
         <div class="is-flex is-flex-direction-row is-justify-content-space-between my-5">
-          <div class="cs-progress-container">
+          <div class="cs-progress-container" style="overflow: auto">
             <progress
               id="p-calories"
               class="progress is-primary -cs-rotate-90"
