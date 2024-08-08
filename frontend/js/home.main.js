@@ -14,10 +14,10 @@ $(document).ready(() => {
   };
 
   let agendaData = {
-    breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+    breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    snack: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
   };
 
   let groupAgendaData = {};
@@ -31,6 +31,8 @@ $(document).ready(() => {
     await agendaContainer.empty();
 
     agenda.forEach((item) => {
+      console.log(agendaData, '-----agendaData-----');
+
       agendaContainer.append(`
           <div id="accordion" class="card accordion">
             <header class="card-header">
@@ -48,10 +50,7 @@ $(document).ready(() => {
                   style="text-align: right">
                   <p class="">calories</p>
                   <p class="" id="t-card">${
-                    (
-                      Math.floor(agendaData?.[item?.toLowerCase()]?.total_calorie || 0) /
-                        agendaData?.[item?.toLowerCase()]?.total_portions || 0
-                    )?.toFixed(0) || 0
+                    agendaData?.[item?.toLowerCase()]?.total_calorie?.toFixed(0) || 0
                   } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
                 </div>
                 <progress class="progress is-small is-primary" value="${
@@ -142,10 +141,10 @@ $(document).ready(() => {
 
     groupAgendaData = {};
     agendaData = {
-      breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+      breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      snack: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
     };
     nutritionRecord = {
       calories: 0,
@@ -211,11 +210,19 @@ $(document).ready(() => {
               agendaData = {
                 ...agendaData,
                 [agenda_name?.toLowerCase()]: {
-                  total_calorie: total_calorie + total_calorie_db,
+                  total_calorie:
+                    total_calorie_db / tmpNutritionRecord.total_portions + total_calorie,
                   target_calorie: target_calorie + target_calorie_db,
                   total_portions: total_portions + total_portions_db,
                 },
               };
+              console.log(
+                total_calorie_db,
+                '-----total_calorie_db-----',
+                tmpNutritionRecord.total_portions,
+                '----res---',
+                total_calorie_db / tmpNutritionRecord.total_portions,
+              );
             }
 
             nutritionRecord.calories +=
