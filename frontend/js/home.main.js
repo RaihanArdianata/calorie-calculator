@@ -14,13 +14,53 @@ $(document).ready(() => {
   };
 
   let agendaData = {
-    breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-    snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+    breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+    snack: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+  };
+
+  toastr.options = {
+    closeButton: true,
+    newestOnTop: false,
+    progressBar: true,
+    positionClass: 'toast-bottom-right',
+    preventDuplicates: false,
+    onclick: null,
+    showDuration: '300',
+    hideDuration: '1000',
+    timeOut: '5000',
+    extendedTimeOut: '1000',
+    showEasing: 'swing',
+    hideEasing: 'linear',
+    showMethod: 'fadeIn',
+    hideMethod: 'fadeOut',
   };
 
   let groupAgendaData = {};
+
+  // function
+  const disableScroll = () => {
+    $(window).on('scroll.disableScroll', function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.scrollTo(0, 0);
+    });
+  };
+
+  const enableScroll = () => {
+    $(window).off('scroll.disableScroll');
+  };
+
+  const showLoader = () => {
+    $('#loader-wrapper').removeClass('is-hidden');
+    disableScroll();
+  };
+
+  const hideLoader = () => {
+    $('#loader-wrapper').addClass('is-hidden');
+    enableScroll();
+  };
 
   // selector
   const mealsContainer = $('#meals');
@@ -31,6 +71,8 @@ $(document).ready(() => {
     await agendaContainer.empty();
 
     agenda.forEach((item) => {
+      console.log(agendaData, '-----agendaData-----');
+
       agendaContainer.append(`
           <div id="accordion" class="card accordion">
             <header class="card-header">
@@ -48,10 +90,7 @@ $(document).ready(() => {
                   style="text-align: right">
                   <p class="">calories</p>
                   <p class="" id="t-card">${
-                    (
-                      Math.floor(agendaData?.[item?.toLowerCase()]?.total_calorie || 0) /
-                        agendaData?.[item?.toLowerCase()]?.total_portions || 0
-                    )?.toFixed(0) || 0
+                    agendaData?.[item?.toLowerCase()]?.total_calorie?.toFixed(0) || 0
                   } / ${agendaData?.[item?.toLowerCase()]?.target_calorie.toFixed(0) || 0}</p>
                 </div>
                 <progress class="progress is-small is-primary" value="${
@@ -114,15 +153,28 @@ $(document).ready(() => {
     //   $(this).find(`.content-${lowerCaseItem}`).slideToggle('slow');
     // });
     $('.delete-agenda').on('click', function async() {
+      showLoader();
       const $agendaId = $(this).closest('.item-wrapper').find('.input-agenda-id');
       const id = $agendaId.val();
 
       apiService
         .delete(`api/agenda/${id}`)
         .done((response) => {
+          hideLoader();
           fetchCalories();
+          toastr.success('Success!');
         })
         .fail((jqXHR, textStatus, errorThrown) => {
+          hideLoader();
+          const errors = jqXHR?.responseJSON?.details;
+          let errorMessage = '';
+
+          if (Array.isArray(errors)) {
+            errors.forEach((error) => {
+              errorMessage += '<br>' + error.message;
+            });
+          }
+          toastr.error(`${errorMessage}`);
           if (jqXHR.status === 401) {
             location.replace('login.html');
             alert('Unauthorized');
@@ -134,6 +186,7 @@ $(document).ready(() => {
   };
 
   const fetchCalories = () => {
+    showLoader();
     const startDate = new Date();
     const endDate = new Date();
     startDate.setHours(0, 0, 0, 0);
@@ -142,10 +195,10 @@ $(document).ready(() => {
 
     groupAgendaData = {};
     agendaData = {
-      breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
-      snack: { total_calorie: 0, target_calorie: 0, total_portions: 0, data: [] },
+      breakfast: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      lunch: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      dinner: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
+      snack: { total_calorie: 0, target_calorie: 0, total_portions: 0 },
     };
     nutritionRecord = {
       calories: 0,
@@ -167,6 +220,7 @@ $(document).ready(() => {
     apiService
       .get(`api/agenda?startDate=${startDate}&endDate=${endDate}`)
       .done((response) => {
+        hideLoader();
         const { data } = response;
 
         if (Array.isArray(data)) {
@@ -211,11 +265,19 @@ $(document).ready(() => {
               agendaData = {
                 ...agendaData,
                 [agenda_name?.toLowerCase()]: {
-                  total_calorie: total_calorie + total_calorie_db,
+                  total_calorie:
+                    total_calorie_db / tmpNutritionRecord.total_portions + total_calorie,
                   target_calorie: target_calorie + target_calorie_db,
                   total_portions: total_portions + total_portions_db,
                 },
               };
+              console.log(
+                total_calorie_db,
+                '-----total_calorie_db-----',
+                tmpNutritionRecord.total_portions,
+                '----res---',
+                total_calorie_db / tmpNutritionRecord.total_portions,
+              );
             }
 
             nutritionRecord.calories +=
@@ -239,6 +301,7 @@ $(document).ready(() => {
         generateAgenda();
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
           alert('Unauthorized');
@@ -249,9 +312,11 @@ $(document).ready(() => {
   };
 
   const fetchCategories = () => {
+    showLoader();
     externalApiService
       .get(`list.php?c=list`)
       .done((response) => {
+        hideLoader();
         const { meals } = response;
         categoriesContainer.empty();
 
@@ -268,6 +333,7 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
           alert('Unauthorized');
@@ -278,9 +344,11 @@ $(document).ready(() => {
   };
 
   const searchMeals = (params) => {
+    showLoader();
     externalApiService
       .get(`search.php?s=${params}`)
       .done((response) => {
+        hideLoader();
         const { meals } = response;
         mealsContainer.empty();
 
@@ -310,6 +378,7 @@ $(document).ready(() => {
         }
       })
       .fail((jqXHR, textStatus, errorThrown) => {
+        hideLoader();
         if (jqXHR.status === 401) {
           location.replace('login.html');
           alert('Unauthorized');

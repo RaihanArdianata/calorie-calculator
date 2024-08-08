@@ -1,6 +1,21 @@
 import apiService from '../api/apiService.js';
 
 $(document).on('click', '.btn-add-favorite', function () {
+  const disableScroll = () => {
+    $(window).on('scroll.disableScroll', function (event) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.scrollTo(0, 0);
+    });
+  };
+
+  const enableScroll = () => {
+    $(window).off('scroll.disableScroll');
+  };
+
+  $('#loader-wrapper').removeClass('is-hidden');
+  disableScroll();
+
   const meal_id = $(this).find('.hidden-id').text().trim();
 
   apiService
@@ -9,9 +24,23 @@ $(document).on('click', '.btn-add-favorite', function () {
       apiService
         .post(`api/meals/${meal_id}/favorite`)
         .done((response) => {
-          console.log(response);
+          $('#loader-wrapper').addClass('is-hidden');
+          enableScroll();
+          toastr.success('Success!');
         })
         .fail((jqXHR, textStatus, errorThrown) => {
+          const errors = jqXHR?.responseJSON?.details;
+          let errorMessage = '';
+
+          if (Array.isArray(errors)) {
+            errors.forEach((error) => {
+              errorMessage += '<br>' + error.message;
+            });
+          }
+          toastr.error(`${errorMessage}`);
+
+          $('#loader-wrapper').addClass('is-hidden');
+          enableScroll();
           if (jqXHR.status === 401) {
             location.replace('login.html');
             alert('Unauthorized');
@@ -21,6 +50,8 @@ $(document).on('click', '.btn-add-favorite', function () {
         });
     })
     .fail((jqXHR, textStatus, errorThrown) => {
+      $('#loader-wrapper').addClass('is-hidden');
+      enableScroll();
       if (jqXHR.status === 401) {
         location.replace('login.html');
         alert('Unauthorized');
